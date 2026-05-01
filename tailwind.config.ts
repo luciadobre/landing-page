@@ -1,26 +1,27 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         primary: "#FFFFFF",
-        secondary: "#999999",
+        secondary: "#333333",
         background: "#0A0A0A",
-        card: "#1A1A1A",
-        textColor: "#E0E0E0",
-        secondaryTextColor: "#999999",
+        card: "#141414",
+        textColor: "#FFFFFF",
+        secondaryTextColor: "#888888",
       },
-      fontFamily: {
-        mono: ["'Courier New'", "monospace"],
-        sans: ["system-ui", "sans-serif"],
+      backgroundSize: {
+        "size-200": "200% 200%",
       },
-      borderWidth: {
-        "3": "3px",
+      backgroundPosition: {
+        "pos-0": "0% 0%",
+        "pos-100": "100% 100%",
       },
     },
   },
   plugins: [],
 };
+
 export default config;
