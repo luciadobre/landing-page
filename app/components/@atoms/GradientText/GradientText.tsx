@@ -1,8 +1,19 @@
-export function GradientText({ children }: { children: React.ReactNode }) {
+import { cn } from "@/app/lib/utils";
+
+interface GradientTextProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function GradientText({ children, className }: GradientTextProps) {
   return (
-    <span className="font-bold text-primary relative inline-block">
+    <span
+      className={cn(
+        "bg-linear-to-r from-primary via-accent to-white bg-clip-text text-transparent",
+        className,
+      )}
+    >
       {children}
-      <span className="absolute bottom-0 left-0 right-0 h-1 bg-primary/20" />
     </span>
   );
 }

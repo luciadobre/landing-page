@@ -1,31 +1,95 @@
-import { Container } from "@/app/components/@atoms/Container/Container";
-import { Section } from "@/app/components/@atoms/Section/Section";
-import { Button } from "@/app/components/@atoms/Button/Button";
-import { GradientText } from "@/app/components/@atoms/GradientText/GradientText";
 import Link from "next/link";
+import { Frame } from "@/app/components/@atoms/Frame/Frame";
+import { SITE_CONFIG } from "@/app/config/site";
+
+const socialLinks = [
+  { label: "GitHub", href: SITE_CONFIG.github, icon: "/icons/github.svg" },
+  { label: "LinkedIn", href: SITE_CONFIG.linkedin, icon: "/icons/linkedin.svg" },
+  { label: "Email", href: `mailto:${SITE_CONFIG.email}`, icon: "/icons/email.svg" },
+];
 
 export function HeroSection() {
   return (
-    <Section id="hero">
-      <Container>
-        <div className="flex flex-col justify-center gap-5 py-16 lg:py-24 max-w-4xl">
-          <h1 className="leading-[1.3]! text-5xl lg:text-7xl font-bold">
-            Clean & <GradientText>simple</GradientText> by design
-          </h1>
-          <p className="md:text-xl md:leading-9 font-light max-w-2xl text-secondaryTextColor">
-            A minimalist landing page built with Next.js, TypeScript, and
-            Tailwind CSS. Fast, clean, and focused on what matters.
+    <Frame
+      as="section"
+      id="hero"
+      variant="bottom"
+      className="mb-4 w-full border-t border-border/70 bg-background"
+    >
+      <div className="grid min-h-[470px] grid-cols-1 overflow-hidden lg:grid-cols-[80px_minmax(380px,430px)_1fr]">
+        <aside className="hidden border-r border-border/70 px-6 py-14 lg:flex lg:flex-col lg:items-center lg:justify-between">
+          <p className="font-mono text-2xl leading-none text-primary" style={{ writingMode: "vertical-rl" }}>
+            フルスタック開発者
           </p>
-          <div className="flex gap-5 mt-5">
-            <Button asChild size="lg" className="text-xl font-bold">
-              <Link href="#features">Explore</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="font-bold">
-              <Link href="#contact">Get in touch</Link>
-            </Button>
+
+          <div className="space-y-3">
+            <p className="font-mono text-xl text-primary">01</p>
+            <div className="space-y-1">
+              <span className="block h-0.5 w-5 bg-primary" />
+              <span className="block h-0.5 w-5 bg-border" />
+              <span className="block h-0.5 w-5 bg-border" />
+            </div>
+          </div>
+        </aside>
+
+        <div className="relative z-10 flex flex-col justify-center px-8 py-14 lg:px-16">
+          <p className="mb-5 font-mono text-sm text-primary">こんにちは、私は</p>
+
+          <h1 className="font-mono text-5xl font-bold uppercase leading-[1.08] tracking-wider text-white lg:text-[56px]">
+            Dobre
+            <br />
+            Lucia-Corina
+          </h1>
+
+          <p className="mt-5 font-mono text-2xl uppercase tracking-widest text-primary">
+            Full Stack Developer_
+          </p>
+
+          <p className="mt-6 max-w-[330px] text-base leading-7 text-white/70">
+            I build fast, scalable and modern web applications with clean code
+            and beautiful interfaces.
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-8">
+            <Link
+              href="#projects"
+              className="border border-primary px-7 py-3 font-mono text-sm uppercase tracking-widest text-white shadow-glow-sm transition-colors hover:bg-primary/15"
+            >
+              View Projects ↓
+            </Link>
+
+            <div className="flex items-center gap-7">
+              {socialLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  aria-label={link.label}
+                  className="inline-block h-7 w-7 bg-primary transition-colors [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] [webkit-mask-position:center] [webkit-mask-repeat:no-repeat] [webkit-mask-size:contain] hover:bg-white"
+                  style={{
+                    maskImage: `url(${link.icon})`,
+                    WebkitMaskImage: `url(${link.icon})`,
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </Container>
-    </Section>
+
+        <div className="relative min-h-[320px] overflow-hidden lg:min-h-[470px]">
+          <img
+            src="/assets/hero-image.jpg"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-linear-to-r from-background via-background/35 to-transparent" />
+          <p
+            className="absolute right-10 top-8 hidden font-mono text-3xl leading-none text-primary lg:block"
+            style={{ writingMode: "vertical-rl" }}
+          >
+            未来を創る
+          </p>
+        </div>
+      </div>
+    </Frame>
   );
 }

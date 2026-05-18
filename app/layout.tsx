@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/app/components/@molecules/Header/Header";
 import { Footer } from "@/app/components/@molecules/Footer/Footer";
 import { SITE_CONFIG } from "@/app/config/site";
-
-const poppins = Poppins({
-  weight: ["300", "400", "500", "700", "900"],
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: SITE_CONFIG.title,
@@ -22,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body
-        className={`${poppins.className} text-sm leading-7 bg-background text-textColor antialiased`}
-      >
+      <body className="min-h-screen overflow-x-hidden bg-background p-4 text-sm leading-7 text-white antialiased">
         <Header />
         <main>{children}</main>
         <Footer />

@@ -6,20 +6,14 @@ interface HeadingProps {
   className?: string;
 }
 
+const styles = {
+  h1: "text-5xl lg:text-7xl font-bold uppercase leading-[1.05] tracking-tight",
+  h2: "text-2xl font-bold uppercase tracking-widest",
+  h3: "text-base font-bold",
+};
+
 export function Heading({ level = "h2", children, className }: HeadingProps) {
-  const baseStyles = "font-bold tracking-tight";
-
-  const sizes = {
-    h1: "text-5xl lg:text-7xl",
-    h2: "text-4xl lg:text-5xl",
-    h3: "text-2xl lg:text-3xl",
-  };
-
   const Element = level;
 
-  return (
-    <Element className={cn(baseStyles, sizes[level], className)}>
-      {children}
-    </Element>
-  );
+  return <Element className={cn(styles[level], className)}>{children}</Element>;
 }
