@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
     "Frontend Developer building fast, responsive and modern web interfaces with React, Next.js, TypeScript and Tailwind CSS.",
   author: "Dobre Lucia-Corina",
   year: 2024,
-  email: "lcdobre@proton.me",
+  email: "lucia.dobre@proton.me",
   phone: "+40 726 418 998",
   location: "Bucharest, Romania",
   github: "https://github.com",
