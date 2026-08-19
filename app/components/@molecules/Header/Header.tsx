@@ -96,18 +96,21 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 shadow-[0_8px_24px_rgba(17,18,18,0.08)] backdrop-blur-md">
+    <header className="nav-shadow sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
           <Link
             href="/"
             className="inline-flex items-center gap-3 whitespace-nowrap font-mono text-[11px] font-bold uppercase tracking-[0.12em]"
           >
-            <span className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_0_4px_rgba(185,45,57,0.12)]" />
+            <span className="brand-dot-shadow h-2.5 w-2.5 rounded-full bg-primary" />
             <span>Lucia Dobre</span>
           </Link>
 
-          <nav className="hidden items-center gap-6 lg:flex">
+          <nav
+            className="hidden items-center gap-6 lg:flex"
+            aria-label="Primary navigation"
+          >
             {NAVIGATION_LINKS.map((link) => {
               const isActive = link.href === activeHref;
 
@@ -116,6 +119,7 @@ export function Header() {
                   key={link.label}
                   href={link.href}
                   onClick={(event) => scrollToSection(event, link.href)}
+                  aria-current={isActive ? "page" : undefined}
                   className="relative py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-dim transition-colors hover:text-accent"
                 >
                   {link.label}
@@ -141,6 +145,7 @@ export function Header() {
             type="button"
             className="ml-auto flex w-10 flex-col items-end gap-1.5 lg:hidden"
             aria-label="Open navigation"
+            aria-expanded="false"
           >
             <span className="block h-px w-3/4 bg-accent" />
             <span className="block h-px w-full bg-accent" />

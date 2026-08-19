@@ -267,6 +267,21 @@ export function FlyingPhotoStack() {
     }
   };
 
+  const focusFrame = (index: number) => {
+    const object = objectsRef.current[index];
+    object.isDragging = true;
+    object.isVanishing = false;
+    object.vx = 0;
+    object.vy = 0;
+  };
+
+  const blurFrame = (index: number) => {
+    const object = objectsRef.current[index];
+    object.isDragging = false;
+    object.isVanishing = true;
+    object.vz = 18;
+  };
+
   return (
     <div
       ref={stageRef}
@@ -289,11 +304,13 @@ export function FlyingPhotoStack() {
             objectsRef.current[index].el = element;
           }}
           type="button"
-          aria-label={`Catch ${frame.caption}`}
+          aria-label={`Catch and hold photo: ${frame.caption}`}
           className={`${styles.frame} ${frame.className}`}
           onPointerDown={(event) => startDrag(index, event)}
           onPointerUp={(event) => endDrag(index, event)}
           onPointerCancel={(event) => endDrag(index, event)}
+          onFocus={() => focusFrame(index)}
+          onBlur={() => blurFrame(index)}
         >
           <img
             src={frame.src}

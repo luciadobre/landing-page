@@ -14,6 +14,14 @@
   --shadow-glow-accent: 0 12px 40px rgba(185, 45, 57, 0.18);
 }
 
+:root {
+  --site-header-height: 4rem;
+  --site-footer-height: 5rem;
+  --site-max-width: 1500px;
+  --site-gutter: 48px;
+  --site-gutter-sm: 28px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -46,6 +54,72 @@ body::before {
   color: white;
 }
 
+:focus-visible {
+  outline: 2px solid #b92d39;
+  outline-offset: 4px;
+}
+
+.nav-shadow {
+  box-shadow: 0 8px 24px rgba(17, 18, 18, 0.08);
+}
+
+.brand-dot-shadow {
+  box-shadow: 0 0 0 4px rgba(185, 45, 57, 0.12);
+}
+
+.ticker-track {
+  animation: ticker 32s linear infinite;
+}
+
+.site-shell {
+  width: min(var(--site-max-width), calc(100% - var(--site-gutter)));
+  margin-inline: auto;
+}
+
+.state-shell {
+  width: min(900px, calc(100% - var(--site-gutter)));
+  margin-inline: auto;
+}
+
+.hero-screen {
+  min-height: calc(100svh - var(--site-header-height));
+}
+
+.contact-screen {
+  height: calc(100svh - var(--site-header-height) - var(--site-footer-height));
+}
+
+.viewport-minus-header {
+  min-height: calc(100svh - var(--site-header-height));
+}
+
+.display-wordmark {
+  transform-origin: left;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.68;
+}
+
+.hero-wordmark {
+  transform: scaleX(0.92);
+  font-size: clamp(5.2rem, 14vw, 13rem);
+}
+
+.contact-wordmark {
+  transform: scaleX(0.94);
+  font-size: clamp(5rem, 14vw, 15rem);
+}
+
+.outline-dark {
+  color: transparent;
+  -webkit-text-stroke: 1.25px #111212;
+}
+
+.outline-light {
+  color: transparent;
+  -webkit-text-stroke: 1px #e8e5de;
+}
+
 .reveal-scope [data-reveal] {
   opacity: 0;
   transform: translateY(14px);
@@ -63,9 +137,23 @@ body::before {
   }
 }
 
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 640px) {
+  .site-shell,
+  .state-shell {
+    width: calc(100% - var(--site-gutter-sm));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-scope [data-reveal],
-  .reveal-scope.is-visible [data-reveal] {
+  .reveal-scope.is-visible [data-reveal],
+  .ticker-track {
     animation: none;
     opacity: 1;
     transform: none;
