@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 interface SkillIconProps {
   name: string;
-  abbr: string;
+  icon: string;
   revealDelay?: string;
 }
 
-export function SkillIcon({ name, abbr, revealDelay = "0ms" }: SkillIconProps) {
+export function SkillIcon({ name, icon, revealDelay = "0ms" }: SkillIconProps) {
   return (
     <div
       className="group flex min-h-28 flex-col justify-between border-r border-b border-border bg-transparent p-4 transition-colors hover:bg-card"
@@ -14,9 +16,14 @@ export function SkillIcon({ name, abbr, revealDelay = "0ms" }: SkillIconProps) {
         className="flex h-10 w-10 items-center justify-center text-primary"
         style={{ "--reveal-delay": revealDelay } as React.CSSProperties}
       >
-        <span className="font-mono text-xl font-bold tracking-wider text-primary">
-          {abbr}
-        </span>
+        <Image
+          src={icon}
+          alt=""
+          aria-hidden="true"
+          width={32}
+          height={32}
+          className="h-8 w-8 object-contain"
+        />
       </div>
       <span
         data-reveal

@@ -20,7 +20,7 @@ export function SkillsSection() {
                 <SkillIcon
                   key={skill.name}
                   name={skill.name}
-                  abbr={skill.abbr}
+                  icon={skill.icon}
                   revealDelay={`${index * 45}ms`}
                 />
               ))}

@@ -27,18 +27,18 @@ export const SOCIAL_LINKS = [
 ];
 
 export const SKILLS = [
-  { name: "TypeScript", abbr: "TS" },
-  { name: "JavaScript", abbr: "JS" },
-  { name: "React", abbr: "Re" },
-  { name: "Next.js", abbr: "Nx" },
-  { name: "Tailwind CSS", abbr: "TW" },
-  { name: "Node.js", abbr: "No" },
-  { name: "Strapi", abbr: "St" },
-  { name: "GraphQL", abbr: "GQ" },
-  { name: "MySQL", abbr: "DB" },
-  { name: "Git", abbr: "Gt" },
-  { name: "Docker", abbr: "Dk" },
-  { name: "Jest", abbr: "Jt" },
+  { name: "TypeScript", icon: "/icons/skills/typescript.svg" },
+  { name: "JavaScript", icon: "/icons/skills/javascript.svg" },
+  { name: "React", icon: "/icons/skills/react.svg" },
+  { name: "Next.js", icon: "/icons/skills/nextjs.svg" },
+  { name: "Tailwind CSS", icon: "/icons/skills/tailwindcss.svg" },
+  { name: "Node.js", icon: "/icons/skills/nodejs.svg" },
+  { name: "Strapi", icon: "/icons/skills/strapi.svg" },
+  { name: "GraphQL", icon: "/icons/skills/graphql.svg" },
+  { name: "MySQL", icon: "/icons/skills/mysql.svg" },
+  { name: "Git", icon: "/icons/skills/git.svg" },
+  { name: "Docker", icon: "/icons/skills/docker.svg" },
+  { name: "Jest", icon: "/icons/skills/jest.svg" },
 ];
 
 export const TECH_STACK = [
