@@ -1,0 +1,90 @@
+.line {
+  position: absolute;
+  right: -2%;
+  top: 0;
+  width: min(56vw, 940px);
+  height: min(34vw, 460px);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.routeDot {
+  fill: #e8e5de;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.active .routeDot {
+  animation: dotIn 220ms ease-out both;
+}
+
+.milestone {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.active .milestone {
+  animation: milestoneIn 300ms ease-out both;
+}
+
+.milestoneOuter {
+  fill: transparent;
+  stroke: rgba(232, 229, 222, 0.82);
+  stroke-width: 0.72;
+}
+
+.milestoneInner {
+  fill: #e8e5de;
+  stroke: none;
+}
+
+.milestone text {
+  fill: rgba(232, 229, 222, 0.76);
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+  font-size: 3.5px;
+  letter-spacing: 0.16em;
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+.milestone .labelRight {
+  text-anchor: start;
+}
+
+@keyframes dotIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+}
+
+@keyframes milestoneIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px) scale(0.65);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 900px) {
+  .line {
+    position: relative;
+    right: auto;
+    top: auto;
+    display: block;
+    width: 100%;
+    height: 160px;
+    margin: 20px 0 8px;
+  }
+}
