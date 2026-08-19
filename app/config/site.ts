@@ -6,7 +6,6 @@ export const SITE_CONFIG = {
   author: "Dobre Lucia-Corina",
   year: 2024,
   email: "lucia.dobre@proton.me",
-  phone: "+40 726 418 998",
   location: "Bucharest, Romania",
   github: "https://github.com",
   linkedin: "https://linkedin.com/in/dobre-lucia-corina",
@@ -14,9 +13,9 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION_LINKS = [
   { label: "Home", href: "#hero" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
   { label: "Experience", href: "#experience" },
+  { label: "Skills", href: "#skills" },
+  { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -120,15 +119,4 @@ export const WORKED_ON = [
   "Internal CMS screens and content management tooling",
   "GraphQL and REST API integrations with Apollo Client",
   "Photoshop-led content work for Smart Gaming social channels",
-];
-
-export const CONTACT_INFO = [
-  { label: "Location", value: SITE_CONFIG.location },
-  { label: "Email", value: SITE_CONFIG.email, href: `mailto:${SITE_CONFIG.email}` },
-  {
-    label: "Phone",
-    value: SITE_CONFIG.phone,
-    href: `tel:${SITE_CONFIG.phone.replaceAll(" ", "")}`,
-  },
-  { label: "LinkedIn", value: "/in/dobre-lucia-corina", href: SITE_CONFIG.linkedin },
 ];
