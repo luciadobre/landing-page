@@ -1,4 +1,5 @@
 import { Container } from "@/app/components/@atoms/Container/Container";
+import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { Section } from "@/app/components/@atoms/Section/Section";
 import { SectionHeader } from "@/app/components/@atoms/SectionHeader/SectionHeader";
 import { TimelineEntry } from "@/app/components/@molecules/TimelineEntry/TimelineEntry";
@@ -14,11 +15,15 @@ export function ExperienceSection() {
           </aside>
           <div>
             <SectionHeader label="Jobs & Education" />
-            <div className="px-4 pb-12 sm:px-7">
-              {EXPERIENCE.map((entry) => (
-                <TimelineEntry key={entry.company} {...entry} />
+            <RevealScope className="px-4 pb-12 sm:px-7">
+              {EXPERIENCE.map((entry, index) => (
+                <TimelineEntry
+                  key={entry.company}
+                  {...entry}
+                  revealDelay={`${index * 110}ms`}
+                />
               ))}
-            </div>
+            </RevealScope>
           </div>
         </div>
       </Container>

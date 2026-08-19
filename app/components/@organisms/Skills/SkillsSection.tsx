@@ -1,4 +1,5 @@
 import { Container } from "@/app/components/@atoms/Container/Container";
+import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { Section } from "@/app/components/@atoms/Section/Section";
 import { SectionHeader } from "@/app/components/@atoms/SectionHeader/SectionHeader";
 import { SkillIcon } from "@/app/components/@molecules/SkillIcon/SkillIcon";
@@ -14,31 +15,40 @@ export function SkillsSection() {
           </aside>
           <div>
             <SectionHeader label="Skills & Tools" />
-            <div className="grid grid-cols-2 border-b border-border sm:grid-cols-3 lg:grid-cols-6">
-              {SKILLS.map((skill) => (
+            <RevealScope className="grid grid-cols-2 border-b border-border sm:grid-cols-3 lg:grid-cols-6">
+              {SKILLS.map((skill, index) => (
                 <SkillIcon
                   key={skill.name}
                   name={skill.name}
                   abbr={skill.abbr}
+                  revealDelay={`${index * 45}ms`}
                 />
               ))}
-            </div>
+            </RevealScope>
 
-            <div className="px-4 py-8 sm:px-7">
-              {TECH_STACK.map((item) => (
+            <RevealScope className="px-4 py-8 sm:px-7">
+              {TECH_STACK.map((item, index) => (
                 <div
                   key={item.label}
                   className="grid gap-4 border-b border-border py-5 sm:grid-cols-[170px_1fr]"
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-primary">
+                  <span
+                    data-reveal
+                    className="font-mono text-[10px] uppercase tracking-[0.12em] text-primary"
+                    style={{ "--reveal-delay": `${index * 80}ms` } as React.CSSProperties}
+                  >
                     {item.label}
                   </span>
-                  <span className="text-[clamp(1.05rem,2vw,2rem)] leading-tight tracking-[-0.03em] text-accent">
+                  <span
+                    data-reveal
+                    className="text-[clamp(1.05rem,2vw,2rem)] leading-tight tracking-[-0.03em] text-accent"
+                    style={{ "--reveal-delay": `${80 + index * 80}ms` } as React.CSSProperties}
+                  >
                     {item.value}
                   </span>
                 </div>
               ))}
-            </div>
+            </RevealScope>
           </div>
         </div>
       </Container>
