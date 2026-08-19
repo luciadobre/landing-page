@@ -13,9 +13,9 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="flex min-h-[calc(100svh-4rem)] items-stretch bg-accent text-background"
+      className="flex h-[calc(100svh-9rem)] scroll-mt-16 items-stretch bg-accent text-background"
     >
-      <RevealScope className="mx-auto flex w-[min(1500px,calc(100%_-_48px))] flex-col justify-between py-14 max-sm:w-[calc(100%_-_28px)]">
+      <RevealScope className="mx-auto flex w-[min(1500px,calc(100%_-_48px))] flex-col justify-center py-10 max-sm:w-[calc(100%_-_28px)]">
         <div className="relative">
           <div
             data-reveal

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import type { MouseEvent } from "react";
 import { Container } from "@/app/components/@atoms/Container/Container";
 import { NAVIGATION_LINKS } from "@/app/config/site";
 
@@ -14,6 +15,31 @@ const sectionTargets = [
 
 export function Header() {
   const [activeHref, setActiveHref] = useState("#hero");
+
+  const scrollToSection = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    event.preventDefault();
+    setActiveHref(href);
+
+    if (href === "#hero") {
+      window.history.replaceState(null, "", window.location.pathname);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    const element = document.getElementById(href.slice(1));
+    if (!element) return;
+
+    window.history.replaceState(null, "", `${window.location.pathname}${href}`);
+    const headerHeight =
+      document.querySelector("header")?.getBoundingClientRect().height ?? 64;
+    const targetTop =
+      element.getBoundingClientRect().top + window.scrollY - headerHeight;
+
+    window.scrollTo({ top: targetTop, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const getActiveFromScroll = () => {
@@ -70,7 +96,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 shadow-[0_8px_24px_rgba(17,18,18,0.08)] backdrop-blur-md">
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
           <Link
@@ -89,7 +115,7 @@ export function Header() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  onClick={() => setActiveHref(link.href)}
+                  onClick={(event) => scrollToSection(event, link.href)}
                   className="relative py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-dim transition-colors hover:text-accent"
                 >
                   {link.label}

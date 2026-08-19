@@ -4,7 +4,7 @@ import { SITE_CONFIG } from "@/app/config/site";
 
 export function Footer() {
   return (
-    <footer className="bg-accent pb-5 text-background">
+    <footer className="flex h-20 items-start bg-accent text-background">
       <Container>
         <RevealScope>
           <p
