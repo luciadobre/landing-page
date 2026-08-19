@@ -9,7 +9,7 @@ export function TechBadge({ label, className }: TechBadgeProps) {
   return (
     <span
       className={cn(
-        "text-[10px] uppercase tracking-widest text-dim border border-border px-2 py-1 bg-muted",
+        "border border-border bg-background/70 px-2 py-1 font-mono text-[10px] uppercase leading-none tracking-[0.1em] text-dim",
         className,
       )}
     >

@@ -1,20 +1,17 @@
-import { cn } from "@/app/lib/utils";
-
 interface SkillIconProps {
   name: string;
   abbr: string;
-  className?: string;
 }
 
-export function SkillIcon({ name, abbr, className }: SkillIconProps) {
+export function SkillIcon({ name, abbr }: SkillIconProps) {
   return (
-    <div className={cn("flex flex-col items-center gap-3 group", className)}>
-      <div className="w-14 h-14 border border-border bg-card flex items-center justify-center group-hover:border-primary group-hover:shadow-glow-sm transition-all duration-200">
-        <span className="text-xs font-bold text-primary tracking-wider">
+    <div className="group flex min-h-28 flex-col justify-between border-r border-b border-border bg-transparent p-4 transition-colors hover:bg-card">
+      <div className="flex h-10 w-10 items-center justify-center text-primary">
+        <span className="font-mono text-xl font-bold tracking-wider text-primary">
           {abbr}
         </span>
       </div>
-      <span className="text-[10px] uppercase tracking-widest text-dim text-center leading-tight">
+      <span className="text-left text-[11px] uppercase leading-tight tracking-[0.08em] text-dim">
         {name}
       </span>
     </div>

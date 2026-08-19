@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/app/components/@atoms/Button/Button";
 import { Container } from "@/app/components/@atoms/Container/Container";
 import { NAVIGATION_LINKS } from "@/app/config/site";
 
@@ -71,15 +70,18 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-4 z-50">
-      <Container className="bg-background/90 backdrop-blur-sm">
-        <div className="grid h-[76px] grid-cols-[170px_1fr_170px] items-center px-8">
-          <Link href="/" className="font-mono text-2xl font-bold tracking-widest">
-            <span className="text-primary">LC</span>
-            <span className="text-white">.DEV</span>
+    <header className="sticky top-0 z-50 border-b border-border bg-background/90 backdrop-blur-md">
+      <Container>
+        <div className="flex h-16 items-center justify-between gap-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-3 whitespace-nowrap font-mono text-[11px] font-bold uppercase tracking-[0.12em]"
+          >
+            <span className="h-2.5 w-2.5 rounded-full bg-primary shadow-[0_0_0_4px_rgba(185,45,57,0.12)]" />
+            <span>Lucia Dobre</span>
           </Link>
 
-          <nav className="hidden h-full items-center justify-center gap-10 lg:flex">
+          <nav className="hidden items-center gap-6 lg:flex">
             {NAVIGATION_LINKS.map((link) => {
               const isActive = link.href === activeHref;
 
@@ -88,11 +90,11 @@ export function Header() {
                   key={link.label}
                   href={link.href}
                   onClick={() => setActiveHref(link.href)}
-                  className="relative flex h-full min-w-20 items-center justify-center px-3 font-mono text-sm uppercase tracking-widest text-white/80 transition-colors hover:text-primary"
+                  className="relative py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-dim transition-colors hover:text-accent"
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-1/2 h-1 w-12 -translate-x-1/2 bg-primary shadow-glow-sm" />
+                    <span className="absolute bottom-0 left-0 h-px w-full bg-primary" />
                   )}
                 </Link>
               );
@@ -100,21 +102,23 @@ export function Header() {
           </nav>
 
           <div className="hidden justify-self-end lg:block">
-            <Button asChild variant="ghost" size="md">
-              <Link href="/resume.pdf" download>
-                Resume ↓
-              </Link>
-            </Button>
+            <Link
+              href="/resume.pdf"
+              download
+              className="inline-flex items-center justify-center border border-border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-accent hover:bg-accent hover:text-background"
+            >
+              Resume
+            </Link>
           </div>
 
           <button
             type="button"
-            className="col-start-3 ml-auto flex w-10 flex-col items-end gap-1.5 lg:hidden"
+            className="ml-auto flex w-10 flex-col items-end gap-1.5 lg:hidden"
             aria-label="Open navigation"
           >
-            <span className="block h-0.5 w-3/4 bg-white" />
-            <span className="block h-0.5 w-full bg-white" />
-            <span className="block h-0.5 w-1/2 bg-white" />
+            <span className="block h-px w-3/4 bg-accent" />
+            <span className="block h-px w-full bg-accent" />
+            <span className="block h-px w-1/2 bg-accent" />
           </button>
         </div>
       </Container>

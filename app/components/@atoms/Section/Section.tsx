@@ -1,29 +1,12 @@
 interface SectionProps {
   children: React.ReactNode;
   id?: string;
-  className?: string;
 }
 
-export function Section({ children, id, className }: SectionProps) {
+export function Section({ children, id }: SectionProps) {
   return (
-    <section id={id} className={className}>
+    <section id={id} className="border-b border-accent">
       {children}
     </section>
-  );
-}
-
-interface SectionHeaderProps {
-  label: string;
-  action?: { label: string; href: string };
-}
-
-export function SectionHeader({ label, action }: SectionHeaderProps) {
-  return (
-    <div className="flex items-center justify-between">
-      <p>
-        <span>//</span> {label}
-      </p>
-      {action && <a href={action.href}>{action.label} {"->"}</a>}
-    </div>
   );
 }
