@@ -2,17 +2,17 @@ import { Container } from "@/app/components/@atoms/Container/Container";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { Section } from "@/app/components/@atoms/Section/Section";
 import { SectionHeader } from "@/app/components/@atoms/SectionHeader/SectionHeader";
+import { SectionRail } from "@/app/components/@atoms/SectionRail/SectionRail";
 import { SkillIcon } from "@/app/components/@molecules/SkillIcon/SkillIcon";
 import { SKILLS, TECH_STACK } from "@/app/config/site";
+import { revealDelay } from "@/app/lib/utils";
 
 export function SkillsSection() {
   return (
-    <Section id="skills">
+    <Section id="skills" label="Skills and tools">
       <Container className="border-x border-muted">
         <div className="grid lg:grid-cols-[190px_minmax(0,1fr)]">
-          <aside className="border-b border-muted px-4 py-4 font-mono text-[10px] uppercase tracking-[0.13em] text-dim lg:border-b-0 lg:border-r lg:px-5 lg:py-7">
-            02 / Stack
-          </aside>
+          <SectionRail>02 / Stack</SectionRail>
           <div>
             <SectionHeader label="Skills & Tools" />
             <RevealScope className="grid grid-cols-2 border-b border-border sm:grid-cols-3 lg:grid-cols-6">
@@ -35,14 +35,14 @@ export function SkillsSection() {
                   <span
                     data-reveal
                     className="font-mono text-[10px] uppercase tracking-[0.12em] text-primary"
-                    style={{ "--reveal-delay": `${index * 80}ms` } as React.CSSProperties}
+                    style={revealDelay(`${index * 80}ms`)}
                   >
                     {item.label}
                   </span>
                   <span
                     data-reveal
                     className="text-[clamp(1.05rem,2vw,2rem)] leading-tight tracking-[-0.03em] text-accent"
-                    style={{ "--reveal-delay": `${80 + index * 80}ms` } as React.CSSProperties}
+                    style={revealDelay(`${80 + index * 80}ms`)}
                   >
                     {item.value}
                   </span>

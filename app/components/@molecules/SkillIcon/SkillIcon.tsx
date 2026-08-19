@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { revealDelay as revealDelayStyle } from "@/app/lib/utils";
 
 interface SkillIconProps {
   name: string;
@@ -7,6 +8,8 @@ interface SkillIconProps {
 }
 
 export function SkillIcon({ name, icon, revealDelay = "0ms" }: SkillIconProps) {
+  const delay = revealDelay;
+
   return (
     <div
       className="group flex min-h-28 flex-col justify-between border-r border-b border-border bg-transparent p-4 transition-colors hover:bg-card"
@@ -14,7 +17,7 @@ export function SkillIcon({ name, icon, revealDelay = "0ms" }: SkillIconProps) {
       <div
         data-reveal
         className="flex h-10 w-10 items-center justify-center text-primary"
-        style={{ "--reveal-delay": revealDelay } as React.CSSProperties}
+        style={revealDelayStyle(delay)}
       >
         <Image
           src={icon}
@@ -28,7 +31,7 @@ export function SkillIcon({ name, icon, revealDelay = "0ms" }: SkillIconProps) {
       <span
         data-reveal
         className="text-left text-[11px] uppercase leading-tight tracking-[0.08em] text-dim"
-        style={{ "--reveal-delay": `calc(${revealDelay} + 70ms)` } as React.CSSProperties}
+        style={revealDelayStyle(`calc(${delay} + 70ms)`)}
       >
         {name}
       </span>

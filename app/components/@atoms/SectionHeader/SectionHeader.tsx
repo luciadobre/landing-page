@@ -1,4 +1,5 @@
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
+import { revealDelay } from "@/app/lib/utils";
 
 interface SectionHeaderProps {
   label: string;
@@ -12,14 +13,14 @@ export function SectionHeader({ label, action }: SectionHeaderProps) {
         <p
           data-reveal
           className="mb-5 font-mono text-[10px] uppercase tracking-[0.14em] text-primary"
-          style={{ "--reveal-delay": "60ms" } as React.CSSProperties}
+          style={revealDelay("60ms")}
         >
           {label}
         </p>
         <h2
           data-reveal
           className="max-w-5xl text-[clamp(3.2rem,8vw,8.5rem)] font-black uppercase leading-[0.82] tracking-[-0.06em] text-accent"
-          style={{ "--reveal-delay": "140ms" } as React.CSSProperties}
+          style={revealDelay("140ms")}
         >
           {label.replace("&", "/")}
         </h2>
@@ -28,7 +29,7 @@ export function SectionHeader({ label, action }: SectionHeaderProps) {
             data-reveal
             href={action.href}
             className="mt-8 inline-block border-b border-accent pb-1 font-mono text-[10px] uppercase tracking-[0.12em] text-accent transition-colors hover:border-primary hover:text-primary"
-            style={{ "--reveal-delay": "220ms" } as React.CSSProperties}
+            style={revealDelay("220ms")}
           >
             {action.label}
           </a>

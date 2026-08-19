@@ -1,12 +1,21 @@
-import Link from "next/link";
 import dynamic from "next/dynamic";
+import { LoadingMark } from "@/app/components/@atoms/PageState/PageState";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
+import { SocialLinks } from "@/app/components/@molecules/SocialLinks/SocialLinks";
 import { SITE_CONFIG, SKILLS, SOCIAL_LINKS } from "@/app/config/site";
+import { revealDelay } from "@/app/lib/utils";
 
 const FlyingPhotoStack = dynamic(() =>
   import("@/app/components/@molecules/FlyingPhotoStack/FlyingPhotoStack").then(
     (module) => module.FlyingPhotoStack,
   ),
+  {
+    loading: () => (
+      <div className="flex min-h-[420px] items-center justify-center">
+        <LoadingMark label="Loading photos" compact />
+      </div>
+    ),
+  },
 );
 
 export function HeroSection() {
@@ -15,15 +24,16 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative grid min-h-[calc(100svh-64px)] grid-rows-[1fr_auto] overflow-hidden border-b border-accent"
+      aria-label="Portfolio introduction"
+      className="hero-screen relative grid grid-rows-[1fr_auto] overflow-hidden border-b border-accent"
     >
       <div className="pointer-events-none absolute left-0 top-[30%] h-px w-full bg-linear-to-r from-transparent via-primary to-transparent opacity-70" />
 
-      <RevealScope className="mx-auto flex h-full min-h-0 w-[min(1500px,calc(100%_-_48px))] flex-col justify-between py-7 max-sm:w-[calc(100%_-_28px)]">
+      <RevealScope className="site-shell flex h-full min-h-0 flex-col justify-between py-7">
         <div
           data-reveal
           className="flex justify-between gap-8 font-mono text-[10px] uppercase tracking-[0.13em] text-dim max-sm:grid"
-          style={{ "--reveal-delay": "80ms" } as React.CSSProperties}
+          style={revealDelay("80ms")}
         >
           <span>
             {SITE_CONFIG.author} / {SITE_CONFIG.location}
@@ -35,12 +45,12 @@ export function HeroSection() {
           <div>
             <h1
               data-reveal
-              className="origin-left scale-x-[0.92] text-[clamp(5.2rem,14vw,13rem)] font-black uppercase leading-[0.68] tracking-[-0.095em] text-accent"
-              style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
+              className="display-wordmark hero-wordmark text-accent"
+              style={revealDelay("180ms")}
               aria-label="Lucia Dobre"
             >
               <span className="block">Lucia</span>
-              <span className="block text-transparent [-webkit-text-stroke:1.25px_#111212]">
+              <span className="outline-dark block">
                 Dobre
               </span>
             </h1>
@@ -52,43 +62,32 @@ export function HeroSection() {
           <div
             data-reveal
             className="font-mono text-[10px] uppercase tracking-[0.13em] text-primary"
-            style={{ "--reveal-delay": "300ms" } as React.CSSProperties}
+            style={revealDelay("300ms")}
           >
             Profile / 00
           </div>
           <p
             data-reveal
             className="m-0 max-w-2xl text-[clamp(1.05rem,1.55vw,1.45rem)] leading-snug tracking-[-0.025em]"
-            style={{ "--reveal-delay": "380ms" } as React.CSSProperties}
+            style={revealDelay("380ms")}
           >
             {SITE_CONFIG.description}
           </p>
           <div
             data-reveal
             className="flex flex-wrap justify-start gap-4 lg:justify-end"
-            style={{ "--reveal-delay": "460ms" } as React.CSSProperties}
+            style={revealDelay("460ms")}
           >
-            <Link
-              href={`mailto:${SITE_CONFIG.email}`}
-              className="border-b border-accent py-1 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-primary hover:text-primary"
-            >
-              Email me
-            </Link>
-            {SOCIAL_LINKS.filter((link) => link.label !== "Email").map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="border-b border-accent py-1 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-primary hover:text-primary"
-              >
-                {link.label}
-              </Link>
-            ))}
+            <SocialLinks
+              links={SOCIAL_LINKS}
+              linkClassName="border-b border-accent py-1 font-mono text-[10px] uppercase tracking-[0.12em] hover:border-primary"
+            />
           </div>
         </div>
       </RevealScope>
 
       <div className="overflow-hidden bg-accent text-background">
-        <div className="flex w-max animate-[ticker_32s_linear_infinite]">
+        <div className="ticker-track flex w-max">
           {[tickerItems, tickerItems].map((items, index) => (
             <span
               key={index}
@@ -99,8 +98,6 @@ export function HeroSection() {
           ))}
         </div>
       </div>
-
-      <style>{`@keyframes ticker { to { transform: translateX(-50%); } }`}</style>
     </section>
   );
 }

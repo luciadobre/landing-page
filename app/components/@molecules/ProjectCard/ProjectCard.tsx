@@ -1,4 +1,5 @@
 import { TechBadge } from "@/app/components/@atoms/TechBadge/TechBadge";
+import { revealDelay } from "@/app/lib/utils";
 
 interface ProjectCardProps {
   category: string;
@@ -13,7 +14,7 @@ export function ProjectCard({
   title,
   description,
   tech,
-  revealDelay = "0ms",
+  revealDelay: delay = "0ms",
 }: ProjectCardProps) {
   return (
     <article
@@ -23,7 +24,7 @@ export function ProjectCard({
         <div>
           <div
             data-reveal
-            style={{ "--reveal-delay": revealDelay } as React.CSSProperties}
+            style={revealDelay(delay)}
           >
             <TechBadge
               label={category}
@@ -33,14 +34,14 @@ export function ProjectCard({
           <h3
             data-reveal
             className="mt-4 text-[clamp(1.5rem,2.6vw,2.4rem)] font-bold uppercase leading-none tracking-[-0.045em] text-accent"
-            style={{ "--reveal-delay": `calc(${revealDelay} + 70ms)` } as React.CSSProperties}
+            style={revealDelay(`calc(${delay} + 70ms)`)}
           >
             {title}
           </h3>
           <p
             data-reveal
             className="mt-3 max-w-xl text-sm leading-relaxed text-dim"
-            style={{ "--reveal-delay": `calc(${revealDelay} + 140ms)` } as React.CSSProperties}
+            style={revealDelay(`calc(${delay} + 140ms)`)}
           >
             {description}
           </p>
@@ -48,7 +49,7 @@ export function ProjectCard({
         <div
           data-reveal
           className="flex max-w-xs flex-wrap gap-2 sm:justify-end"
-          style={{ "--reveal-delay": `calc(${revealDelay} + 210ms)` } as React.CSSProperties}
+          style={revealDelay(`calc(${delay} + 210ms)`)}
         >
           {tech.slice(0, 4).map((item) => (
             <TechBadge key={item} label={item} />

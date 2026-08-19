@@ -1,26 +1,37 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { LoadingMark } from "@/app/components/@atoms/PageState/PageState";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
-import { CONTACT_INFO, SITE_CONFIG } from "@/app/config/site";
+import { SocialLinks } from "@/app/components/@molecules/SocialLinks/SocialLinks";
+import { SITE_CONFIG, SOCIAL_LINKS } from "@/app/config/site";
+import { revealDelay } from "@/app/lib/utils";
 
 const JourneyLine = dynamic(() =>
   import("@/app/components/@molecules/JourneyLine/JourneyLine").then(
     (module) => module.JourneyLine,
   ),
+  {
+    loading: () => (
+      <div className="absolute right-[14%] top-8 hidden lg:block">
+        <LoadingMark label="Loading route" compact />
+      </div>
+    ),
+  },
 );
 
 export function ContactSection() {
   return (
     <section
       id="contact"
-      className="flex h-[calc(100svh-9rem)] scroll-mt-16 items-stretch bg-accent text-background"
+      aria-label="Contact Lucia"
+      className="contact-screen flex scroll-mt-16 items-stretch bg-accent text-background"
     >
-      <RevealScope className="mx-auto flex w-[min(1500px,calc(100%_-_48px))] flex-col justify-center py-10 max-sm:w-[calc(100%_-_28px)]">
-        <div className="relative">
+      <RevealScope className="site-shell flex flex-col justify-center py-10">
+        <div className="relative grid gap-8">
           <div
             data-reveal
             className="flex justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.13em] text-background/60 max-sm:grid"
-            style={{ "--reveal-delay": "80ms" } as React.CSSProperties}
+            style={revealDelay("80ms")}
           >
             <span>04 / Contact</span>
             <span>{SITE_CONFIG.location}</span>
@@ -30,41 +41,45 @@ export function ContactSection() {
 
           <h2
             data-reveal
-            className="my-12 origin-left scale-x-[0.94] text-[clamp(5rem,14vw,15rem)] font-black uppercase leading-[0.68] tracking-[-0.085em]"
-            style={{ "--reveal-delay": "180ms" } as React.CSSProperties}
+            className="display-wordmark contact-wordmark my-12"
+            style={revealDelay("180ms")}
           >
             Let&apos;s
-            <span className="block text-transparent [-webkit-text-stroke:1px_#e8e5de]">
+            <span className="outline-light block">
               connect.
             </span>
           </h2>
 
-          <Link
-            href={`mailto:${SITE_CONFIG.email}`}
+          <p
             data-reveal
-            className="block border-y border-background/25 py-5 text-[clamp(1.6rem,4.6vw,5rem)] leading-none tracking-[-0.055em] transition-colors hover:text-primary"
-            style={{ "--reveal-delay": "300ms" } as React.CSSProperties}
+            className="max-w-none whitespace-nowrap border-t border-background/25 pb-2 pt-8 text-[clamp(1rem,1.45vw,1.65rem)] leading-snug tracking-[-0.035em] text-background/80 max-lg:whitespace-normal"
+            style={revealDelay("300ms")}
           >
-            {SITE_CONFIG.email}
-          </Link>
+            If your company has a cool project, I wanna be a part of it.
+          </p>
 
-          <ul
-            data-reveal
-            className="mt-7 flex flex-wrap gap-6 font-mono text-[10px] uppercase tracking-[0.13em] text-background/75"
-            style={{ "--reveal-delay": "420ms" } as React.CSSProperties}
-          >
-            {CONTACT_INFO.map((item) => (
-              <li key={item.label}>
-                {item.href ? (
-                  <Link href={item.href} className="transition-colors hover:text-primary">
-                    {item.value}
-                  </Link>
-                ) : (
-                  item.value
-                )}
-              </li>
-            ))}
-          </ul>
+          <div>
+            <Link
+              href={`mailto:${SITE_CONFIG.email}`}
+              data-reveal
+              className="block border-y border-background/25 py-5 text-[clamp(1.6rem,4.6vw,5rem)] leading-none tracking-[-0.055em] transition-colors hover:text-primary"
+              style={revealDelay("420ms")}
+            >
+              {SITE_CONFIG.email}
+            </Link>
+
+            <div
+              data-reveal
+              className="mt-7 flex flex-wrap items-center gap-6 font-mono text-[10px] uppercase tracking-[0.13em] text-background/75"
+              style={revealDelay("520ms")}
+            >
+              <span>{SITE_CONFIG.location}</span>
+              <SocialLinks
+                links={SOCIAL_LINKS.filter((link) => link.label !== "Email")}
+                iconClassName="invert"
+              />
+            </div>
+          </div>
         </div>
       </RevealScope>
     </section>
