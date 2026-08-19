@@ -1,12 +1,10 @@
-import { cn } from "@/app/lib/utils";
-
 interface TimelineEntryProps {
   startDate: string;
   endDate: string;
   title: string;
   company: string;
+  kind?: string;
   bullets: string[];
-  className?: string;
 }
 
 export function TimelineEntry({
@@ -14,48 +12,37 @@ export function TimelineEntry({
   endDate,
   title,
   company,
+  kind = "History",
   bullets,
-  className,
 }: TimelineEntryProps) {
   return (
-    <div
-      className={cn("grid grid-cols-[100px_auto_1fr] gap-x-6", className)}
-    >
-      <div className="flex flex-col items-end gap-1 pt-1.5 text-right">
-        <span className="text-[10px] uppercase tracking-widest text-primary">
-          {startDate}
-        </span>
-        <span className="text-[10px] uppercase tracking-widest text-dim">
-          {endDate}
-        </span>
+    <article className="grid gap-4 border-b border-border py-7 lg:grid-cols-[190px_minmax(0,1fr)_130px] lg:gap-7">
+      <div className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-primary">
+        {startDate} - {endDate}
       </div>
 
-      <div className="flex flex-col items-center">
-        <div className="w-7 h-7 border border-primary bg-card flex items-center justify-center shrink-0">
-          <div className="w-1.5 h-1.5 bg-primary" />
-        </div>
-        <div className="flex-1 w-px bg-border mt-1" />
-      </div>
-
-      <div className="pb-12">
-        <h3 className="font-bold text-sm uppercase tracking-wider">
+      <div>
+        <h3 className="text-[clamp(2.2rem,4.2vw,4.8rem)] font-black uppercase leading-[0.9] tracking-[-0.055em] text-accent">
           {title}
         </h3>
-        <p className="text-primary text-xs uppercase tracking-widest mt-1 mb-4">
+        <p className="mb-5 mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-dim">
           {company}
         </p>
-        <ul className="flex flex-col gap-2">
-          {bullets.map((bullet, i) => (
+        <ul className="grid max-w-4xl gap-2">
+          {bullets.map((bullet) => (
             <li
-              key={i}
-              className="text-dim text-sm leading-relaxed flex gap-2"
+              key={bullet}
+              className="relative pl-5 text-sm leading-relaxed text-accent/80 before:absolute before:left-0 before:text-primary before:content-['-']"
             >
-              <span className="text-primary mt-1 shrink-0">•</span>
               {bullet}
             </li>
           ))}
         </ul>
       </div>
-    </div>
+
+      <div className="hidden text-right font-mono text-[9px] uppercase tracking-[0.12em] text-dim lg:block">
+        {kind}
+      </div>
+    </article>
   );
 }

@@ -1,95 +1,77 @@
 import Link from "next/link";
-import { Frame } from "@/app/components/@atoms/Frame/Frame";
-import { SITE_CONFIG } from "@/app/config/site";
-
-const socialLinks = [
-  { label: "GitHub", href: SITE_CONFIG.github, icon: "/icons/github.svg" },
-  { label: "LinkedIn", href: SITE_CONFIG.linkedin, icon: "/icons/linkedin.svg" },
-  { label: "Email", href: `mailto:${SITE_CONFIG.email}`, icon: "/icons/email.svg" },
-];
+import { SITE_CONFIG, SKILLS, SOCIAL_LINKS } from "@/app/config/site";
 
 export function HeroSection() {
+  const tickerItems = SKILLS.map((skill) => skill.name).join(" / ");
+
   return (
-    <Frame
-      as="section"
+    <section
       id="hero"
-      variant="bottom"
-      className="mb-4 w-full border-t border-border/70 bg-background"
+      className="relative grid min-h-[calc(100svh-64px)] grid-rows-[1fr_auto] overflow-hidden border-b border-accent"
     >
-      <div className="grid min-h-[470px] grid-cols-1 overflow-hidden lg:grid-cols-[80px_minmax(380px,430px)_1fr]">
-        <aside className="hidden border-r border-border/70 px-6 py-14 lg:flex lg:flex-col lg:items-center lg:justify-between">
-          <p className="font-mono text-2xl leading-none text-primary" style={{ writingMode: "vertical-rl" }}>
-            フルスタック開発者
-          </p>
+      <div className="pointer-events-none absolute left-0 top-[30%] h-px w-full bg-linear-to-r from-transparent via-primary to-transparent opacity-70" />
 
-          <div className="space-y-3">
-            <p className="font-mono text-xl text-primary">01</p>
-            <div className="space-y-1">
-              <span className="block h-0.5 w-5 bg-primary" />
-              <span className="block h-0.5 w-5 bg-border" />
-              <span className="block h-0.5 w-5 bg-border" />
-            </div>
-          </div>
-        </aside>
-
-        <div className="relative z-10 flex flex-col justify-center px-8 py-14 lg:px-16">
-          <p className="mb-5 font-mono text-sm text-primary">こんにちは、私は</p>
-
-          <h1 className="font-mono text-5xl font-bold uppercase leading-[1.08] tracking-wider text-white lg:text-[56px]">
-            Dobre
-            <br />
-            Lucia-Corina
-          </h1>
-
-          <p className="mt-5 font-mono text-2xl uppercase tracking-widest text-primary">
-            Full Stack Developer_
-          </p>
-
-          <p className="mt-6 max-w-[330px] text-base leading-7 text-white/70">
-            I build fast, scalable and modern web applications with clean code
-            and beautiful interfaces.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-8">
-            <Link
-              href="#projects"
-              className="border border-primary px-7 py-3 font-mono text-sm uppercase tracking-widest text-white shadow-glow-sm transition-colors hover:bg-primary/15"
-            >
-              View Projects ↓
-            </Link>
-
-            <div className="flex items-center gap-7">
-              {socialLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  aria-label={link.label}
-                  className="inline-block h-7 w-7 bg-primary transition-colors [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain] [webkit-mask-position:center] [webkit-mask-repeat:no-repeat] [webkit-mask-size:contain] hover:bg-white"
-                  style={{
-                    maskImage: `url(${link.icon})`,
-                    WebkitMaskImage: `url(${link.icon})`,
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+      <div className="mx-auto flex min-h-0 w-[min(1500px,calc(100%_-_48px))] flex-col justify-between py-7 max-sm:w-[calc(100%_-_28px)]">
+        <div className="flex justify-between gap-8 font-mono text-[10px] uppercase tracking-[0.13em] text-dim max-sm:grid">
+          <span>
+            {SITE_CONFIG.author} / {SITE_CONFIG.location}
+          </span>
+          <span className="text-right max-sm:text-left">Frontend Developer</span>
         </div>
 
-        <div className="relative min-h-[320px] overflow-hidden lg:min-h-[470px]">
-          <img
-            src="/assets/hero-image.jpg"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-linear-to-r from-background via-background/35 to-transparent" />
-          <p
-            className="absolute right-10 top-8 hidden font-mono text-3xl leading-none text-primary lg:block"
-            style={{ writingMode: "vertical-rl" }}
+        <div className="py-10">
+          <h1
+            className="origin-left scale-x-[0.92] text-[clamp(5.2rem,18vw,18rem)] font-black uppercase leading-[0.68] tracking-[-0.095em] text-accent"
+            aria-label="Lucia Dobre"
           >
-            未来を創る
+            <span className="block">Lucia</span>
+            <span className="block text-transparent [-webkit-text-stroke:1.25px_#111212]">
+              Dobre
+            </span>
+          </h1>
+        </div>
+
+        <div className="grid items-end gap-7 border-t border-border pt-5 lg:grid-cols-[160px_minmax(0,650px)_auto]">
+          <div className="font-mono text-[10px] uppercase tracking-[0.13em] text-primary">
+            Profile / 00
+          </div>
+          <p className="m-0 max-w-2xl text-[clamp(1.05rem,1.55vw,1.45rem)] leading-snug tracking-[-0.025em]">
+            {SITE_CONFIG.description}
           </p>
+          <div className="flex flex-wrap justify-start gap-4 lg:justify-end">
+            <Link
+              href={`mailto:${SITE_CONFIG.email}`}
+              className="border-b border-accent py-1 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-primary hover:text-primary"
+            >
+              Email me
+            </Link>
+            {SOCIAL_LINKS.filter((link) => link.label !== "Email").map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="border-b border-accent py-1 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-primary hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
-    </Frame>
+
+      <div className="overflow-hidden bg-accent text-background">
+        <div className="flex w-max animate-[ticker_32s_linear_infinite]">
+          {[tickerItems, tickerItems].map((items, index) => (
+            <span
+              key={index}
+              className="whitespace-nowrap px-3 py-3 font-mono text-[10px] uppercase tracking-[0.12em]"
+            >
+              {items} / {items} /
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <style>{`@keyframes ticker { to { transform: translateX(-50%); } }`}</style>
+    </section>
   );
 }
