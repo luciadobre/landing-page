@@ -153,29 +153,42 @@ export function FlyingPhotoStack() {
 
     const tick = () => {
       const rect = stageRef.current?.getBoundingClientRect();
-        const width = rect?.width ?? 720;
-        const height = rect?.height ?? 520;
-        const stage = {
-          originX: width * -0.28,
-          originY: height * 0.02,
-          verticalReach: height * 1.05,
-          maxSpread: width * 0.58,
-        };
+      const width = rect?.width ?? 720;
+      const height = rect?.height ?? 520;
+      const isCompact = width < 520;
+      const stage = {
+        originX: width * (isCompact ? -0.18 : -0.28),
+        originY: height * (isCompact ? 0.5 : 0.02),
+        verticalReach: height * (isCompact ? 0.98 : 1.05),
+        maxSpread: width * (isCompact ? 0.54 : 0.58),
+      };
 
       objectsRef.current.forEach((object, index) => {
         if (!object.el) return;
         const settings = depthSettings[object.depth];
 
         if (object.isDragging) {
-          object.vx += (mouseRef.current.x - object.x) * 0.075;
-          object.vy += (mouseRef.current.y - object.y) * 0.075;
+          const frameWidth = object.el.offsetWidth || 120;
+          const frameHeight = object.el.offsetHeight || 150;
+          const mobilePreviewScale = Math.min(
+            1.12,
+            Math.max(
+              1,
+              Math.min((width - 28) / frameWidth, (height - 36) / frameHeight),
+            ),
+          );
+          const targetX = isCompact ? -frameWidth / 2 : mouseRef.current.x;
+          const targetY = isCompact ? -frameHeight / 2 : mouseRef.current.y;
+
+          object.vx += (targetX - object.x) * 0.075;
+          object.vy += (targetY - object.y) * 0.075;
           object.vz += (0 - object.z) * 0.08;
 
           object.vx *= 0.85;
           object.vy *= 0.85;
           object.vz *= 0.7;
 
-          object.scale = spring(object.scale, 1.22, 0.34);
+          object.scale = spring(object.scale, isCompact ? mobilePreviewScale : 1.55, 0.34);
           object.opacity = spring(object.opacity, 1, 0.34);
           object.x += object.vx;
           object.y += object.vy;

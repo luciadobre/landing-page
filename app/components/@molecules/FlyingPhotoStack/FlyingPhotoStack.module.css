@@ -1,10 +1,9 @@
 .stage {
   position: relative;
-  display: none;
+  display: block;
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  border-left: 1px solid rgba(17, 18, 18, 0.11);
   perspective: 1300px;
   perspective-origin: 50% 58%;
   transform-style: preserve-3d;
@@ -12,14 +11,15 @@
 
 .silhouette {
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: 0;
   z-index: 3;
   width: min(54%, 440px);
   max-height: 76%;
   object-fit: contain;
-  object-position: bottom left;
+  object-position: bottom center;
   pointer-events: none;
+  transform: translateX(-50%);
   user-select: none;
 }
 
@@ -112,9 +112,8 @@
   opacity: 0;
   pointer-events: none;
   text-align: center;
-  text-overflow: ellipsis;
   transition: opacity 160ms ease;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .frame[data-caught="true"] {
@@ -149,33 +148,33 @@
 }
 
 .frameOne {
-  width: 210px;
-  height: 270px;
+  width: 105px;
+  height: 135px;
 }
 
 .frameTwo {
-  width: 280px;
-  height: 210px;
+  width: 140px;
+  height: 105px;
 }
 
 .frameThree {
-  width: 224px;
-  height: 304px;
+  width: 112px;
+  height: 152px;
 }
 
 .frameFour {
-  width: 196px;
-  height: 196px;
+  width: 98px;
+  height: 98px;
 }
 
 .frameFive {
-  width: 260px;
-  height: 188px;
+  width: 130px;
+  height: 94px;
 }
 
 .frameSix {
-  width: 206px;
-  height: 266px;
+  width: 103px;
+  height: 133px;
 }
 
 .hint {
@@ -184,7 +183,7 @@
   bottom: 28px;
   max-width: 160px;
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.4;
   letter-spacing: 0.12em;
   text-align: right;
@@ -208,8 +207,84 @@
   object-position: center bottom;
 }
 
+@media (max-width: 1023px) {
+  .stage {
+    height: clamp(280px, 36svh, 340px);
+    min-height: 280px;
+    margin-top: -24px;
+    perspective: 900px;
+  }
+
+  .silhouette {
+    left: -8px;
+    bottom: -8px;
+    display: block;
+    width: min(38%, 150px);
+    max-height: 70%;
+    object-position: bottom left;
+    transform: none;
+  }
+
+  .frame[data-caught="true"] {
+    width: min(74vw, 300px);
+    height: min(54vw, 220px);
+    padding: 12px 12px 58px;
+  }
+
+  .frame[data-caught="true"]::before {
+    inset: 12px 12px 58px;
+  }
+
+  .caption {
+    left: 14px;
+    right: 14px;
+    bottom: 12px;
+    max-height: 36px;
+    font-size: 11px;
+    line-height: 1.12;
+  }
+
+  .hint {
+    right: 0;
+    bottom: 14px;
+    display: block;
+    max-width: 120px;
+    font-size: 10px;
+  }
+}
+
 @media (min-width: 1024px) {
   .stage {
-    display: block;
+    border-left: 1px solid rgba(17, 18, 18, 0.11);
+  }
+
+  .frameOne {
+    width: 210px;
+    height: 270px;
+  }
+
+  .frameTwo {
+    width: 280px;
+    height: 210px;
+  }
+
+  .frameThree {
+    width: 224px;
+    height: 304px;
+  }
+
+  .frameFour {
+    width: 196px;
+    height: 196px;
+  }
+
+  .frameFive {
+    width: 260px;
+    height: 188px;
+  }
+
+  .frameSix {
+    width: 206px;
+    height: 266px;
   }
 }
