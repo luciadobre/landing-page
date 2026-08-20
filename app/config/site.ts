@@ -2,7 +2,7 @@ export const SITE_CONFIG = {
   name: "LC.DEV",
   title: "Lucia-Corina Dobre - Frontend Developer",
   description:
-    "Frontend Developer building fast, responsive and modern web interfaces with React, Next.js, TypeScript and Tailwind CSS.",
+    "I'm passionate about any project that looks interesting, lets me develop cool skills or makes a positive impact in society. So far I've loved coding and tech the most.",
   author: "Dobre Lucia-Corina",
   year: 2024,
   email: "lucia.dobre@proton.me",
@@ -21,8 +21,16 @@ export const NAVIGATION_LINKS = [
 
 export const SOCIAL_LINKS = [
   { label: "GitHub", href: SITE_CONFIG.github, icon: "/icons/github.svg" },
-  { label: "LinkedIn", href: SITE_CONFIG.linkedin, icon: "/icons/linkedin.svg" },
-  { label: "Email", href: `mailto:${SITE_CONFIG.email}`, icon: "/icons/email.svg" },
+  {
+    label: "LinkedIn",
+    href: SITE_CONFIG.linkedin,
+    icon: "/icons/linkedin.svg",
+  },
+  {
+    label: "Email",
+    href: `mailto:${SITE_CONFIG.email}`,
+    icon: "/icons/email.svg",
+  },
 ];
 
 export const SKILLS = [
@@ -40,14 +48,39 @@ export const SKILLS = [
   { name: "Jest", icon: "/icons/skills/jest.svg" },
 ];
 
+export const SKILLS_STRIP = [
+  "TypeScript",
+  "JavaScript",
+  "React",
+  "Next.js",
+  "Tailwind CSS",
+  "Node.js",
+  "NestJS",
+  "Strapi",
+  "GraphQL",
+  "tRPC",
+  "Prisma",
+  "Git",
+  "Docker",
+  "Jenkins",
+  "CI/CD",
+  "Jest",
+  "Express",
+  "Photoshop",
+  "Premiere",
+  "Tableau",
+  "R",
+  "Economics",
+];
+
 export const TECH_STACK = [
   { label: "Languages", value: "TypeScript, JavaScript" },
-  { label: "Frontend", value: "React, Next.js, Tailwind, Zustand, Framer Motion" },
-  { label: "Backend", value: "Node.js, Strapi" },
-  { label: "Database", value: "MySQL, MSSQL" },
-  { label: "APIs & Data", value: "GraphQL, REST" },
-  { label: "CI/CD", value: "GitHub Actions, Vercel" },
-  { label: "Tooling", value: "Git, Jest, Docker" },
+  { label: "Frontend", value: "React, Next.js, Tailwind, Zustand" },
+  { label: "Backend", value: "Node.js, NestJS, Strapi" },
+  { label: "Database", value: "MySQL, Prisma" },
+  { label: "APIs & Data", value: "GraphQL, REST, tRPC" },
+  { label: "CI/CD", value: "GitHub Actions, Jenkins, Vercel" },
+  { label: "Tooling", value: "Git, Jest, React Testing Library, Docker" },
   { label: "Design", value: "Adobe Photoshop, Adobe Premiere" },
 ];
 
