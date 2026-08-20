@@ -1,17 +1,19 @@
 import dynamic from "next/dynamic";
+import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { LoadingMark } from "@/app/components/@atoms/PageState/PageState";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { SocialLinks } from "@/app/components/@molecules/SocialLinks/SocialLinks";
-import { SITE_CONFIG, SKILLS, SOCIAL_LINKS } from "@/app/config/site";
+import { SITE_CONFIG, SKILLS_STRIP, SOCIAL_LINKS } from "@/app/config/site";
 import { revealDelay } from "@/app/lib/utils";
 
-const FlyingPhotoStack = dynamic(() =>
-  import("@/app/components/@molecules/FlyingPhotoStack/FlyingPhotoStack").then(
-    (module) => module.FlyingPhotoStack,
-  ),
+const FlyingPhotoStack = dynamic(
+  () =>
+    import("@/app/components/@molecules/FlyingPhotoStack/FlyingPhotoStack").then(
+      (module) => module.FlyingPhotoStack,
+    ),
   {
     loading: () => (
-      <div className="flex min-h-[420px] items-center justify-center">
+      <div className="flex items-center justify-center max-lg:h-[clamp(280px,36svh,340px)] max-lg:min-h-[280px] lg:h-full">
         <LoadingMark label="Loading photos" compact />
       </div>
     ),
@@ -19,7 +21,7 @@ const FlyingPhotoStack = dynamic(() =>
 );
 
 export function HeroSection() {
-  const tickerItems = SKILLS.map((skill) => skill.name).join(" / ");
+  const tickerItems = SKILLS_STRIP.join(" / ");
 
   return (
     <section
@@ -29,43 +31,37 @@ export function HeroSection() {
     >
       <div className="pointer-events-none absolute left-0 top-[30%] h-px w-full bg-linear-to-r from-transparent via-primary to-transparent opacity-70" />
 
-      <RevealScope className="site-shell flex h-full min-h-0 flex-col justify-between py-7">
+      <RevealScope className="site-shell flex h-full min-h-0 flex-col justify-between py-5 sm:py-7">
         <div
           data-reveal
-          className="flex justify-between gap-8 font-mono text-[10px] uppercase tracking-[0.13em] text-dim max-sm:grid"
+          className="flex justify-between gap-8 font-mono text-[12px] uppercase tracking-[0.13em] text-dim max-sm:grid sm:text-[13px]"
           style={revealDelay("80ms")}
         >
           <span>
             {SITE_CONFIG.author} / {SITE_CONFIG.location}
           </span>
-          <span className="text-right max-sm:text-left">Frontend Developer</span>
+          <span className="text-right">I have lots of dreams</span>
         </div>
 
-        <div className="grid min-h-0 flex-1 items-center gap-8 py-4 lg:grid-cols-[minmax(0,0.78fr)_minmax(620px,0.72fr)]">
+        <div className="grid min-h-0 flex-1 items-center gap-2 py-1 sm:gap-8 sm:py-4 lg:grid-cols-[minmax(0,0.78fr)_minmax(620px,0.72fr)]">
           <div>
             <h1
               data-reveal
-              className="display-wordmark hero-wordmark text-accent"
+              className="display-wordmark hero-wordmark text-accent max-lg:mt-[-18px]"
               style={revealDelay("180ms")}
               aria-label="Lucia Dobre"
             >
               <span className="block">Lucia</span>
-              <span className="outline-dark block">
-                Dobre
-              </span>
+              <span className="outline-dark block">Dobre</span>
             </h1>
           </div>
           <FlyingPhotoStack />
         </div>
 
         <div className="grid items-end gap-7 border-t border-border pt-5 lg:grid-cols-[160px_minmax(0,650px)_auto]">
-          <div
-            data-reveal
-            className="font-mono text-[10px] uppercase tracking-[0.13em] text-primary"
-            style={revealDelay("300ms")}
-          >
+          <Heading tagName="div" red reveal delay="300ms">
             Profile / 00
-          </div>
+          </Heading>
           <p
             data-reveal
             className="m-0 max-w-2xl text-[clamp(1.05rem,1.55vw,1.45rem)] leading-snug tracking-[-0.025em]"
