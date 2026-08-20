@@ -101,6 +101,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between gap-6">
           <Link
             href="/"
+            onClick={(event) => scrollToSection(event, "#hero")}
             className="inline-flex items-center gap-3 whitespace-nowrap font-mono text-[11px] font-bold uppercase tracking-[0.12em]"
           >
             <span className="brand-dot-shadow h-2.5 w-2.5 rounded-full bg-primary" />
@@ -120,7 +121,7 @@ export function Header() {
                   href={link.href}
                   onClick={(event) => scrollToSection(event, link.href)}
                   aria-current={isActive ? "page" : undefined}
-                  className="relative py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-dim transition-colors hover:text-accent"
+                  className="relative py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-dim transition-colors hover:text-accent"
                 >
                   {link.label}
                   {isActive && (
@@ -135,7 +136,7 @@ export function Header() {
             <Link
               href="/resume.pdf"
               download
-              className="inline-flex items-center justify-center border border-border px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors hover:border-accent hover:bg-accent hover:text-background"
+              className="inline-flex items-center justify-center border border-border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors hover:border-accent hover:bg-accent hover:text-background"
             >
               Resume
             </Link>
