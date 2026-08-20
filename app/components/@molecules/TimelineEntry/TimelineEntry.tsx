@@ -1,3 +1,4 @@
+import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { revealDelay as revealDelayStyle } from "@/app/lib/utils";
 
 interface TimelineEntryProps {
@@ -25,29 +26,21 @@ export function TimelineEntry({
     <article
       className="grid gap-4 border-b border-border py-7 lg:grid-cols-[190px_minmax(0,1fr)_130px] lg:gap-7"
     >
-      <div
-        data-reveal
-        className="font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-primary"
-        style={revealDelayStyle(delay)}
-      >
+      <Heading tagName="div" red reveal delay={delay} className="leading-relaxed">
         {startDate} - {endDate}
-      </div>
+      </Heading>
 
       <div>
-        <h3
-          data-reveal
-          className="text-[clamp(2.2rem,4.2vw,4.8rem)] font-black uppercase leading-[0.9] tracking-[-0.055em] text-accent"
-          style={revealDelayStyle(`calc(${delay} + 80ms)`)}
+        <Heading
+          variant="displayMd"
+          reveal
+          delay={`calc(${delay} + 80ms)`}
         >
           {title}
-        </h3>
-        <p
-          data-reveal
-          className="mb-5 mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-dim"
-          style={revealDelayStyle(`calc(${delay} + 150ms)`)}
-        >
+        </Heading>
+        <Heading tagName="p" reveal delay={`calc(${delay} + 150ms)`} className="mb-5 mt-2">
           {company}
-        </p>
+        </Heading>
         <ul className="grid max-w-4xl gap-2">
           {bullets.map((bullet, index) => (
             <li
@@ -62,13 +55,9 @@ export function TimelineEntry({
         </ul>
       </div>
 
-      <div
-        data-reveal
-        className="hidden text-right font-mono text-[9px] uppercase tracking-[0.12em] text-dim lg:block"
-        style={revealDelayStyle(`calc(${delay} + 190ms)`)}
-      >
+      <Heading tagName="div" reveal delay={`calc(${delay} + 190ms)`} className="hidden text-right lg:block">
         {kind}
-      </div>
+      </Heading>
     </article>
   );
 }

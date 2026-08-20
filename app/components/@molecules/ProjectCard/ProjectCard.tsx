@@ -1,3 +1,4 @@
+import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { TechBadge } from "@/app/components/@atoms/TechBadge/TechBadge";
 import { revealDelay } from "@/app/lib/utils";
 
@@ -31,13 +32,14 @@ export function ProjectCard({
               className="w-fit border-primary/40 bg-transparent text-primary"
             />
           </div>
-          <h3
-            data-reveal
-            className="mt-4 text-[clamp(1.5rem,2.6vw,2.4rem)] font-bold uppercase leading-none tracking-[-0.045em] text-accent"
-            style={revealDelay(`calc(${delay} + 70ms)`)}
+          <Heading
+            variant="displaySm"
+            reveal
+            delay={`calc(${delay} + 70ms)`}
+            className="mt-4"
           >
             {title}
-          </h3>
+          </Heading>
           <p
             data-reveal
             className="mt-3 max-w-xl text-sm leading-relaxed text-dim"

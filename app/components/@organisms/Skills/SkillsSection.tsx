@@ -1,4 +1,5 @@
 import { Container } from "@/app/components/@atoms/Container/Container";
+import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { Section } from "@/app/components/@atoms/Section/Section";
 import { SectionHeader } from "@/app/components/@atoms/SectionHeader/SectionHeader";
@@ -32,13 +33,9 @@ export function SkillsSection() {
                   key={item.label}
                   className="grid gap-4 border-b border-border py-5 sm:grid-cols-[170px_1fr]"
                 >
-                  <span
-                    data-reveal
-                    className="font-mono text-[10px] uppercase tracking-[0.12em] text-primary"
-                    style={revealDelay(`${index * 80}ms`)}
-                  >
+                  <Heading tagName="span" red reveal delay={`${index * 80}ms`}>
                     {item.label}
-                  </span>
+                  </Heading>
                   <span
                     data-reveal
                     className="text-[clamp(1.05rem,2vw,2rem)] leading-tight tracking-[-0.03em] text-accent"

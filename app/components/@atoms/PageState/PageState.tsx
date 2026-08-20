@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Heading } from "@/app/components/@atoms/Heading/Heading";
 
 interface LoadingMarkProps {
   label?: string;
@@ -40,12 +41,8 @@ export function PageState({ eyebrow, title, description, action }: PageStateProp
   return (
     <main className="viewport-minus-header flex items-center bg-background text-accent">
       <section className="state-shell py-16">
-        <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.14em] text-primary">
-          {eyebrow}
-        </p>
-        <h1 className="text-[clamp(4rem,11vw,10rem)] font-black uppercase leading-[0.78] tracking-[-0.075em]">
-          {title}
-        </h1>
+        <Heading red className="mb-6">{eyebrow}</Heading>
+        <Heading variant="displayHero">{title}</Heading>
         <p className="mt-8 max-w-xl text-lg leading-snug tracking-[-0.025em] text-dim">
           {description}
         </p>
