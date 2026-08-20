@@ -1,23 +1,9 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import { LoadingMark } from "@/app/components/@atoms/PageState/PageState";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
+import { JourneyLine } from "@/app/components/@molecules/JourneyLine/JourneyLineLoader";
 import { SocialLinks } from "@/app/components/@molecules/SocialLinks/SocialLinks";
 import { SITE_CONFIG, SOCIAL_LINKS } from "@/app/config/site";
 import { revealDelay } from "@/app/lib/utils";
-
-const JourneyLine = dynamic(() =>
-  import("@/app/components/@molecules/JourneyLine/JourneyLine").then(
-    (module) => module.JourneyLine,
-  ),
-  {
-    loading: () => (
-      <div className="absolute right-[14%] top-8 hidden lg:block">
-        <LoadingMark label="Loading route" compact />
-      </div>
-    ),
-  },
-);
 
 export function ContactSection() {
   return (
@@ -55,14 +41,14 @@ export function ContactSection() {
             className="max-w-none whitespace-nowrap border-t border-background/25 pb-2 pt-8 text-[clamp(1rem,1.45vw,1.65rem)] leading-snug tracking-[-0.035em] text-background/80 max-lg:whitespace-normal"
             style={revealDelay("300ms")}
           >
-            If your company has a cool project, I wanna be a part of it.
+            If your company has a cool project, I want to be a part of it.
           </p>
 
           <div>
             <Link
               href={`mailto:${SITE_CONFIG.email}`}
               data-reveal
-              className="block border-y border-background/25 py-5 text-[clamp(1.6rem,4.6vw,5rem)] leading-none tracking-[-0.055em] transition-colors hover:text-primary"
+              className="block border-y border-background/25 py-5 text-[clamp(0.95rem,4.6vw,5rem)] leading-none tracking-[-0.055em] transition-colors hover:text-primary"
               style={revealDelay("420ms")}
             >
               {SITE_CONFIG.email}

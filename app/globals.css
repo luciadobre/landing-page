@@ -86,7 +86,7 @@ body::before {
 }
 
 .contact-screen {
-  height: calc(100svh - var(--site-header-height) - var(--site-footer-height));
+  min-height: calc(100svh - var(--site-header-height) - var(--site-footer-height));
 }
 
 .viewport-minus-header {
@@ -102,12 +102,12 @@ body::before {
 
 .hero-wordmark {
   transform: scaleX(0.92);
-  font-size: clamp(5.2rem, 14vw, 13rem);
+  font-size: clamp(2.75rem, 14vw, 13rem);
 }
 
 .contact-wordmark {
   transform: scaleX(0.94);
-  font-size: clamp(5rem, 14vw, 15rem);
+  font-size: clamp(2.75rem, 14vw, 15rem);
 }
 
 .outline-dark {
