@@ -122,7 +122,7 @@ export function JourneyLine() {
   useEffect(() => {
     if (isActive) return;
 
-    const trigger = document.querySelector("footer") ?? lineRef.current;
+    const trigger = lineRef.current;
     if (!trigger) return;
 
     let timeoutId = 0;
@@ -133,7 +133,10 @@ export function JourneyLine() {
         observer.disconnect();
         timeoutId = window.setTimeout(() => setIsActive(true), 700);
       },
-      { threshold: 0.08 },
+      {
+        rootMargin: "0px 0px -35% 0px",
+        threshold: 0.05,
+      },
     );
 
     observer.observe(trigger);
