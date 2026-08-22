@@ -6,8 +6,11 @@ interface SectionProps {
 
 export function Section({ children, id, label }: SectionProps) {
   return (
-    <section id={id} aria-label={label} className="border-b border-accent">
-      {children}
-    </section>
+    <>
+      {id && <span id={id} className="anchor-target" aria-hidden="true" />}
+      <section aria-label={label} className="border-b border-accent">
+        {children}
+      </section>
+    </>
   );
 }

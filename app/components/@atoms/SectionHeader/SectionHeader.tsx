@@ -9,7 +9,7 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ label, action }: SectionHeaderProps) {
   return (
-    <header className="border-b border-border px-4 py-10 sm:px-7 sm:py-14">
+    <div className="border-b border-border px-4 py-10 sm:px-7 sm:py-14">
       <RevealScope>
         <Heading red reveal delay="60ms" className="mb-5">
           {label}
@@ -28,6 +28,6 @@ export function SectionHeader({ label, action }: SectionHeaderProps) {
           </a>
         )}
       </RevealScope>
-    </header>
+    </div>
   );
 }

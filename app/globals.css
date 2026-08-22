@@ -16,6 +16,7 @@
 
 :root {
   --site-header-height: 4rem;
+  --site-anchor-offset: var(--site-header-height);
   --site-footer-height: 5rem;
   --site-max-width: 1500px;
   --site-gutter: 48px;
@@ -65,6 +66,26 @@ body::before {
 
 .brand-dot-shadow {
   box-shadow: 0 0 0 4px rgba(185, 45, 57, 0.12);
+}
+
+.anchor-target {
+  display: block;
+  height: var(--site-header-height);
+  margin-top: calc(var(--site-header-height) * -1);
+  visibility: hidden;
+}
+
+.site-nav-indicator {
+  opacity: 0;
+}
+
+body:not(:has(:target)) .nav-link-home .site-nav-indicator,
+body:has(#hero:target) .nav-link-home .site-nav-indicator,
+body:has(#experience:target) .nav-link-experience .site-nav-indicator,
+body:has(#skills:target) .nav-link-skills .site-nav-indicator,
+body:has(#projects:target) .nav-link-projects .site-nav-indicator,
+body:has(#contact:target) .nav-link-contact .site-nav-indicator {
+  opacity: 1;
 }
 
 .ticker-track {

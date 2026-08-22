@@ -3,7 +3,7 @@ import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { LoadingMark } from "@/app/components/@atoms/PageState/PageState";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { SocialLinks } from "@/app/components/@molecules/SocialLinks/SocialLinks";
-import { SITE_CONFIG, SKILLS_STRIP, SOCIAL_LINKS } from "@/app/config/site";
+import { HERO_COPY, SITE_CONFIG, SKILLS_STRIP, SOCIAL_LINKS } from "@/app/config/site";
 import { revealDelay } from "@/app/lib/utils";
 
 const FlyingPhotoStack = dynamic(
@@ -24,12 +24,13 @@ export function HeroSection() {
   const tickerItems = SKILLS_STRIP.join(" / ");
 
   return (
-    <section
-      id="hero"
-      aria-label="Portfolio introduction"
-      className="hero-screen relative grid grid-rows-[1fr_auto] overflow-hidden border-b border-accent"
-    >
-      <div className="pointer-events-none absolute left-0 top-[30%] h-px w-full bg-linear-to-r from-transparent via-primary to-transparent opacity-70" />
+    <>
+      <span id="hero" className="anchor-target" aria-hidden="true" />
+      <section
+        aria-label="Portfolio introduction"
+        className="hero-screen relative grid grid-rows-[1fr_auto] overflow-hidden border-b border-accent"
+      >
+        <div className="pointer-events-none absolute left-0 top-[30%] h-px w-full bg-linear-to-r from-transparent via-primary to-transparent opacity-70" />
 
       <RevealScope className="site-shell flex h-full min-h-0 flex-col justify-between py-5 sm:py-7">
         <div
@@ -40,7 +41,7 @@ export function HeroSection() {
           <span>
             {SITE_CONFIG.author} / {SITE_CONFIG.location}
           </span>
-          <span className="text-right">I have lots of dreams</span>
+          <span className="text-right">{HERO_COPY.tagline}</span>
         </div>
 
         <div className="grid min-h-0 flex-1 items-center gap-2 py-1 sm:gap-8 sm:py-4 lg:grid-cols-[minmax(0,0.78fr)_minmax(620px,0.72fr)]">
@@ -60,7 +61,7 @@ export function HeroSection() {
 
         <div className="grid items-end gap-7 border-t border-border pt-5 lg:grid-cols-[160px_minmax(0,650px)_auto]">
           <Heading tagName="div" red reveal delay="300ms">
-            Profile / 00
+            {HERO_COPY.profileLabel}
           </Heading>
           <p
             data-reveal
@@ -94,6 +95,7 @@ export function HeroSection() {
           ))}
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

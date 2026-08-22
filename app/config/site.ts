@@ -12,11 +12,11 @@ export const SITE_CONFIG = {
 };
 
 export const NAVIGATION_LINKS = [
-  { label: "Home", href: "#hero" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#hero", activeClassName: "nav-link-home" },
+  { label: "Experience", href: "#experience", activeClassName: "nav-link-experience" },
+  { label: "Skills", href: "#skills", activeClassName: "nav-link-skills" },
+  { label: "Projects", href: "#projects", activeClassName: "nav-link-projects" },
+  { label: "Contact", href: "#contact", activeClassName: "nav-link-contact" },
 ];
 
 export const SOCIAL_LINKS = [
@@ -32,6 +32,18 @@ export const SOCIAL_LINKS = [
     icon: "/icons/email.svg",
   },
 ];
+
+export const HERO_COPY = {
+  tagline: "I have lots of dreams",
+  profileLabel: "Profile / 00",
+};
+
+export const CONTACT_COPY = {
+  sectionLabel: "04 / Contact",
+  headingFirstLine: "Let's",
+  headingSecondLine: "connect.",
+  message: "If your company has a cool project, I want to be a part of it.",
+};
 
 export const SKILLS = [
   { name: "TypeScript", icon: "/icons/skills/typescript.svg" },
