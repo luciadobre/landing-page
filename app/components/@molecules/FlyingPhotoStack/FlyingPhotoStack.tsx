@@ -1,22 +1,41 @@
 "use client";
 
-import { useEffect, useRef, useState, type PointerEvent } from "react";
-import { FLYING_PHOTOS } from "@/app/config/flyingPhotos";
+import { useEffect, useRef, useState, useSyncExternalStore, type PointerEvent } from "react";
+import { createPortal } from "react-dom";
+import Image from "next/image";
+import { FLYING_PHOTOS, type PhotoOrientation } from "@/app/config/flyingPhotos";
 import styles from "./FlyingPhotoStack.module.css";
 
 type Depth = "front" | "mid" | "back";
 
-const frameStyles = [
-  [styles.frameOne, styles.leftCrop],
-  [styles.frameTwo, styles.centerCrop],
-  [styles.frameThree, styles.rightCrop],
-  [styles.frameFour, styles.bottomCrop],
-  [styles.frameFive, styles.leftCrop],
-  [styles.frameTwo, styles.bottomCrop],
-  [styles.frameSix, styles.rightCrop],
-  [styles.frameOne, styles.centerCrop],
-  [styles.frameThree, styles.leftCrop],
-];
+type FlyingFrame = {
+  caption: string;
+  src: string;
+  fallbackSrc: string;
+  className: string;
+  cropClass: string;
+  depth: Depth;
+  orientation: PhotoOrientation;
+};
+
+const FALLBACK_PHOTO_SOURCE = "/assets/hero-image.jpg";
+const MOBILE_BREAKPOINT = 520;
+const POINTER_SPRING = 0.075;
+const DRAG_DAMPING = 0.85;
+const DEPTH_DAMPING = 0.7;
+const DESKTOP_PREVIEW_SCALE = 1.55;
+const MOBILE_PREVIEW_SCALE = { min: 1, max: 1.12 };
+const MOBILE_PREVIEW_PADDING = { x: 28, y: 36 };
+const RECYCLE_PROGRESS = 1.34;
+const RECYCLE_Z = 360;
+
+const framesByOrientation: Record<PhotoOrientation, string[]> = {
+  landscape: [styles.frameTwo, styles.frameFive],
+  portrait: [styles.frameOne, styles.frameThree, styles.frameSix],
+  square: [styles.frameFour],
+};
+
+const cropCycle = [styles.leftCrop, styles.centerCrop, styles.rightCrop, styles.bottomCrop];
 
 const depthPattern: Depth[] = [
   "front",
@@ -30,25 +49,31 @@ const depthPattern: Depth[] = [
   "back",
 ];
 
-const frames = FLYING_PHOTOS.map((photo, index) => {
-  const [className, cropClass] = frameStyles[index % frameStyles.length];
-
-  return {
-    caption: photo.caption,
-    src: photo.photoSource,
-    fallbackSrc: "/assets/hero-image.jpg",
-    className,
-    cropClass,
-    depth: depthPattern[index % depthPattern.length],
+const buildFrames = (): FlyingFrame[] => {
+  const orientationCounts: Record<PhotoOrientation, number> = {
+    landscape: 0,
+    portrait: 0,
+    square: 0,
   };
-}) as Array<{
-  caption: string;
-  src: string;
-  fallbackSrc: string;
-  className: string;
-  cropClass: string;
-  depth: Depth;
-}>;
+
+  return FLYING_PHOTOS.map((photo, index) => {
+    const options = framesByOrientation[photo.orientation];
+    const className = options[orientationCounts[photo.orientation] % options.length];
+    orientationCounts[photo.orientation] += 1;
+
+    return {
+      caption: photo.caption,
+      src: photo.photoSource,
+      fallbackSrc: FALLBACK_PHOTO_SOURCE,
+      className,
+      cropClass: cropCycle[index % cropCycle.length],
+      depth: depthPattern[index % depthPattern.length],
+      orientation: photo.orientation,
+    };
+  });
+};
+
+const frames = buildFrames();
 
 const depthSettings: Record<
   Depth,
@@ -87,8 +112,18 @@ type FlyingObject = {
 const spring = (value: number, target: number, strength: number) =>
   value + (target - value) * strength;
 
-const lanes = [-0.98, 0.82, -0.46, 0.98, -0.76, 0.26, 0.48, -0.22, 0.68];
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
 const starts = [0.06, 0.2, 0.34, 0.48, 0.62, 0.76, 0.9, 1.02, 1.14];
+
+const randomDepth = (): Depth =>
+  depthPattern[Math.floor(Math.random() * depthPattern.length)];
+
+const randomLane = (): number => {
+  const magnitude = 0.2 + Math.random() * 0.78;
+  return Math.random() < 0.5 ? -magnitude : magnitude;
+};
 
 const createObject = (index: number): FlyingObject => {
   const depth = frames[index].depth;
@@ -110,7 +145,7 @@ const createObject = (index: number): FlyingObject => {
     spinZ: 0.16 + index * 0.025,
     progress: starts[index] ?? 0,
     speed: 0.0023 + index * 0.00014,
-    lane: lanes[index] ?? 0,
+    lane: randomLane(),
     phase: index * 1.7,
     depth,
     scale: settings.scale,
@@ -122,18 +157,29 @@ const createObject = (index: number): FlyingObject => {
 
 export function FlyingPhotoStack() {
   const [showSilhouette, setShowSilhouette] = useState(true);
+  const [caughtIndex, setCaughtIndex] = useState<number | null>(null);
+  const [fallbackIndexes, setFallbackIndexes] = useState<Set<number>>(
+    () => new Set(),
+  );
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
   const objectsRef = useRef(frames.map((_, index) => createObject(index)));
   const mouseRef = useRef({ x: 0, y: 0 });
+  const portalRoot = useSyncExternalStore(
+    () => () => undefined,
+    () => document.body,
+    () => null,
+  );
 
   useEffect(() => {
     let animationFrame = 0;
 
-    const recycle = (object: FlyingObject, index: number) => {
+    const recycle = (object: FlyingObject) => {
+      object.depth = randomDepth();
       const settings = depthSettings[object.depth];
 
       object.progress = -0.08 - Math.random() * 0.08;
-      object.lane = lanes[index] ?? 0;
+      object.lane = randomLane();
       object.speed = 0.0022 + Math.random() * 0.001;
       object.phase = Math.random() * Math.PI * 2;
       object.x = 0;
@@ -155,7 +201,7 @@ export function FlyingPhotoStack() {
       const rect = stageRef.current?.getBoundingClientRect();
       const width = rect?.width ?? 720;
       const height = rect?.height ?? 520;
-      const isCompact = width < 520;
+      const isCompact = width < MOBILE_BREAKPOINT;
       const stage = {
         originX: width * (isCompact ? -0.18 : -0.28),
         originY: height * (isCompact ? 0.5 : 0.02),
@@ -163,32 +209,38 @@ export function FlyingPhotoStack() {
         maxSpread: width * (isCompact ? 0.54 : 0.58),
       };
 
-      objectsRef.current.forEach((object, index) => {
+      objectsRef.current.forEach((object) => {
         if (!object.el) return;
         const settings = depthSettings[object.depth];
 
         if (object.isDragging) {
           const frameWidth = object.el.offsetWidth || 120;
           const frameHeight = object.el.offsetHeight || 150;
-          const mobilePreviewScale = Math.min(
-            1.12,
-            Math.max(
-              1,
-              Math.min((width - 28) / frameWidth, (height - 36) / frameHeight),
-            ),
+          const maxMobileScale = Math.min(
+            (width - MOBILE_PREVIEW_PADDING.x) / frameWidth,
+            (height - MOBILE_PREVIEW_PADDING.y) / frameHeight,
+          );
+          const mobilePreviewScale = clamp(
+            maxMobileScale,
+            MOBILE_PREVIEW_SCALE.min,
+            MOBILE_PREVIEW_SCALE.max,
           );
           const targetX = isCompact ? -frameWidth / 2 : mouseRef.current.x;
           const targetY = isCompact ? -frameHeight / 2 : mouseRef.current.y;
 
-          object.vx += (targetX - object.x) * 0.075;
-          object.vy += (targetY - object.y) * 0.075;
+          object.vx += (targetX - object.x) * POINTER_SPRING;
+          object.vy += (targetY - object.y) * POINTER_SPRING;
           object.vz += (0 - object.z) * 0.08;
 
-          object.vx *= 0.85;
-          object.vy *= 0.85;
-          object.vz *= 0.7;
+          object.vx *= DRAG_DAMPING;
+          object.vy *= DRAG_DAMPING;
+          object.vz *= DEPTH_DAMPING;
 
-          object.scale = spring(object.scale, isCompact ? mobilePreviewScale : 1.55, 0.34);
+          object.scale = spring(
+            object.scale,
+            isCompact ? mobilePreviewScale : DESKTOP_PREVIEW_SCALE,
+            0.34,
+          );
           object.opacity = spring(object.opacity, 1, 0.34);
           object.x += object.vx;
           object.y += object.vy;
@@ -225,10 +277,12 @@ export function FlyingPhotoStack() {
         }
 
         if (
-          (!object.isDragging && !object.isVanishing && object.progress > 1.34) ||
-          object.z > 360
+          (!object.isDragging &&
+            !object.isVanishing &&
+            object.progress > RECYCLE_PROGRESS) ||
+          object.z > RECYCLE_Z
         ) {
-          recycle(object, index);
+          recycle(object);
         }
 
         object.el.dataset.caught = String(object.isDragging);
@@ -252,7 +306,28 @@ export function FlyingPhotoStack() {
     return () => cancelAnimationFrame(animationFrame);
   }, []);
 
+  const positionOverlay = (x: number, y: number) => {
+    const overlay = overlayRef.current;
+    if (!overlay) return;
+
+    overlay.style.setProperty("--preview-x", `${x}px`);
+    overlay.style.setProperty("--preview-y", `${y}px`);
+    overlay.style.setProperty("--preview-rotate", "0deg");
+  };
+
+  useEffect(() => {
+    if (caughtIndex === null) return;
+
+    const frameEl = objectsRef.current[caughtIndex]?.el;
+    if (!frameEl) return;
+
+    const rect = frameEl.getBoundingClientRect();
+    positionOverlay(rect.left + rect.width / 2, rect.top + rect.height / 2);
+  }, [caughtIndex]);
+
   const updateMouse = (event: { clientX: number; clientY: number }) => {
+    positionOverlay(event.clientX, event.clientY);
+
     const rect = stageRef.current?.getBoundingClientRect();
     if (!rect) return;
 
@@ -267,6 +342,7 @@ export function FlyingPhotoStack() {
     const object = objectsRef.current[index];
     object.isDragging = true;
     object.isVanishing = false;
+    setCaughtIndex(index);
     object.el?.setPointerCapture(event.pointerId);
   };
 
@@ -275,6 +351,7 @@ export function FlyingPhotoStack() {
     object.isDragging = false;
     object.isVanishing = true;
     object.vz = 18;
+    setCaughtIndex(null);
     if (object.el?.hasPointerCapture(event.pointerId)) {
       object.el.releasePointerCapture(event.pointerId);
     }
@@ -286,6 +363,7 @@ export function FlyingPhotoStack() {
     object.isVanishing = false;
     object.vx = 0;
     object.vy = 0;
+    setCaughtIndex(index);
   };
 
   const blurFrame = (index: number) => {
@@ -293,51 +371,102 @@ export function FlyingPhotoStack() {
     object.isDragging = false;
     object.isVanishing = true;
     object.vz = 18;
+    setCaughtIndex(null);
   };
 
   return (
-    <div
-      ref={stageRef}
-      className={styles.stage}
-      onPointerMove={updateMouse}
-    >
-      {showSilhouette && (
-        <img
-          src="/assets/girl-silhouette.png"
-          alt=""
-          className={styles.silhouette}
-          onError={() => setShowSilhouette(false)}
-        />
-      )}
-
-      {frames.map((frame, index) => (
-        <button
-          key={`${frame.caption}-${index}`}
-          ref={(element) => {
-            objectsRef.current[index].el = element;
-          }}
-          type="button"
-          aria-label={`Catch and hold photo: ${frame.caption}`}
-          className={`${styles.frame} ${frame.className}`}
-          onPointerDown={(event) => startDrag(index, event)}
-          onPointerUp={(event) => endDrag(index, event)}
-          onPointerCancel={(event) => endDrag(index, event)}
-          onFocus={() => focusFrame(index)}
-          onBlur={() => blurFrame(index)}
-        >
-          <img
-            src={frame.src}
+    <>
+      <div
+        ref={stageRef}
+        className={styles.stage}
+        onPointerMove={updateMouse}
+      >
+        {showSilhouette && (
+          <Image
+            src="/assets/girl-silhouette.png"
             alt=""
-            className={frame.cropClass}
-            onError={(event) => {
-              event.currentTarget.src = frame.fallbackSrc;
-            }}
+            width={440}
+            height={620}
+            className={styles.silhouette}
+            onError={() => setShowSilhouette(false)}
+            priority
           />
-          <span className={styles.caption}>{frame.caption}</span>
-        </button>
-      ))}
+        )}
 
-      <p className={styles.hint}>catch and hold</p>
-    </div>
+        {frames.map((frame, index) => (
+          <button
+            key={`${frame.caption}-${index}`}
+            ref={(element) => {
+              objectsRef.current[index].el = element;
+            }}
+            type="button"
+            aria-label={`Catch and hold photo: ${frame.caption}`}
+            data-orientation={frame.orientation}
+            data-preview-source={caughtIndex === index ? "true" : undefined}
+            className={`${styles.frame} ${frame.className}`}
+            onPointerDown={(event) => startDrag(index, event)}
+            onPointerUp={(event) => endDrag(index, event)}
+            onPointerCancel={(event) => endDrag(index, event)}
+            onFocus={() => focusFrame(index)}
+            onBlur={() => blurFrame(index)}
+          >
+            <span className={styles.imageWrap}>
+              <Image
+                src={fallbackIndexes.has(index) ? frame.fallbackSrc : frame.src}
+                alt=""
+                fill
+                sizes="(max-width: 1023px) 300px, 280px"
+                className={frame.cropClass}
+                onError={() => {
+                  setFallbackIndexes((current) => {
+                    if (current.has(index)) return current;
+
+                    const next = new Set(current);
+                    next.add(index);
+                    return next;
+                  });
+                }}
+              />
+            </span>
+            <span className={styles.caption}>{frame.caption}</span>
+          </button>
+        ))}
+
+        <p className={styles.hint}>catch and hold</p>
+      </div>
+
+      {caughtIndex !== null && portalRoot && createPortal(
+        <div
+          ref={overlayRef}
+          className={styles.previewOverlay}
+          data-orientation={frames[caughtIndex].orientation}
+          aria-hidden="true"
+        >
+          <span className={styles.imageWrap}>
+            <Image
+              src={
+                fallbackIndexes.has(caughtIndex)
+                  ? frames[caughtIndex].fallbackSrc
+                  : frames[caughtIndex].src
+              }
+              alt=""
+              fill
+              sizes="(max-width: 1023px) 360px"
+              onError={() => {
+                setFallbackIndexes((current) => {
+                  if (current.has(caughtIndex)) return current;
+
+                  const next = new Set(current);
+                  next.add(caughtIndex);
+                  return next;
+                });
+              }}
+            />
+          </span>
+          <span className={styles.caption}>{frames[caughtIndex].caption}</span>
+        </div>,
+        portalRoot,
+      )}
+    </>
   );
 }
