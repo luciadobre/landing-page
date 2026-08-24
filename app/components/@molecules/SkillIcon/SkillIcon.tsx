@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { LazyImage } from "@/app/components/@atoms/LazyImage/LazyImage";
 import { revealDelay as revealDelayStyle } from "@/app/lib/utils";
 
 interface SkillIconProps {
@@ -19,7 +19,7 @@ export function SkillIcon({ name, icon, revealDelay = "0ms" }: SkillIconProps) {
         className="flex h-10 w-10 items-center justify-center text-primary"
         style={revealDelayStyle(delay)}
       >
-        <Image
+        <LazyImage
           src={icon}
           alt=""
           aria-hidden="true"

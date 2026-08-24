@@ -49,12 +49,8 @@ export function ShowcaseGallery({ photos }: ShowcaseGalleryProps) {
     <div className="relative overflow-hidden border border-border bg-card">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {photos.map((photo, index) => (
-            <ShowcaseSlide
-              key={photo.photoSource}
-              photo={photo}
-              isFirstSlide={index === 0}
-            />
+          {photos.map((photo) => (
+            <ShowcaseSlide key={photo.photoSource} photo={photo} />
           ))}
         </div>
       </div>

@@ -44,8 +44,13 @@ export const FLYING_PHOTOS: FlyingPhoto[] = [
     orientation: "portrait",
   },
   {
-    photoSource: "/assets/photos/silly-portrait.jpg",
-    caption: "Never stopping being silly.",
+    photoSource: "/assets/photos/silly-portrait.png",
+    caption: "On my way to become a great programmer.",
     orientation: "portrait",
+  },
+  {
+    photoSource: "/assets/photos/alpaca-square.png",
+    caption: "I won a World of Warcraft giveaway with my Photoshopped alpaca.",
+    orientation: "square",
   },
 ];

@@ -161,6 +161,9 @@ export function FlyingPhotoStack() {
   const [fallbackIndexes, setFallbackIndexes] = useState<Set<number>>(
     () => new Set(),
   );
+  const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(
+    () => new Set(),
+  );
   const stageRef = useRef<HTMLDivElement | null>(null);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const objectsRef = useRef(frames.map((_, index) => createObject(index)));
@@ -335,6 +338,16 @@ export function FlyingPhotoStack() {
     mouseRef.current.y = event.clientY - rect.top - rect.height / 2;
   };
 
+  const markLoaded = (index: number) => {
+    setLoadedIndexes((current) => {
+      if (current.has(index)) return current;
+
+      const next = new Set(current);
+      next.add(index);
+      return next;
+    });
+  };
+
   const startDrag = (index: number, event: PointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
     updateMouse(event);
@@ -343,6 +356,7 @@ export function FlyingPhotoStack() {
     object.isDragging = true;
     object.isVanishing = false;
     setCaughtIndex(index);
+    markLoaded(index);
     object.el?.setPointerCapture(event.pointerId);
   };
 
@@ -364,6 +378,7 @@ export function FlyingPhotoStack() {
     object.vx = 0;
     object.vy = 0;
     setCaughtIndex(index);
+    markLoaded(index);
   };
 
   const blurFrame = (index: number) => {
@@ -411,22 +426,24 @@ export function FlyingPhotoStack() {
             onBlur={() => blurFrame(index)}
           >
             <span className={styles.imageWrap}>
-              <Image
-                src={fallbackIndexes.has(index) ? frame.fallbackSrc : frame.src}
-                alt=""
-                fill
-                sizes="(max-width: 1023px) 300px, 280px"
-                className={frame.cropClass}
-                onError={() => {
-                  setFallbackIndexes((current) => {
-                    if (current.has(index)) return current;
+              {loadedIndexes.has(index) && (
+                <Image
+                  src={fallbackIndexes.has(index) ? frame.fallbackSrc : frame.src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 1023px) 300px, 280px"
+                  className={frame.cropClass}
+                  onError={() => {
+                    setFallbackIndexes((current) => {
+                      if (current.has(index)) return current;
 
-                    const next = new Set(current);
-                    next.add(index);
-                    return next;
-                  });
-                }}
-              />
+                      const next = new Set(current);
+                      next.add(index);
+                      return next;
+                    });
+                  }}
+                />
+              )}
             </span>
             <span className={styles.caption}>{frame.caption}</span>
           </button>

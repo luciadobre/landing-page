@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { LazyImage } from "@/app/components/@atoms/LazyImage/LazyImage";
 import { cn } from "@/app/lib/utils";
 
 interface SocialLinkItem {
@@ -12,13 +13,17 @@ interface SocialLinksProps {
   links: SocialLinkItem[];
   iconClassName?: string;
   linkClassName?: string;
+  lazy?: boolean;
 }
 
 export function SocialLinks({
   links,
   iconClassName,
   linkClassName,
+  lazy = false,
 }: SocialLinksProps) {
+  const ImageComponent = lazy ? LazyImage : Image;
+
   return (
     <>
       {links.map((link) => (
@@ -31,7 +36,7 @@ export function SocialLinks({
           )}
           aria-label={link.label}
         >
-          <Image
+          <ImageComponent
             src={link.icon}
             alt=""
             aria-hidden="true"
