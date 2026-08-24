@@ -83,7 +83,7 @@ body:not(:has(:target)) .nav-link-home .site-nav-indicator,
 body:has(#hero:target) .nav-link-home .site-nav-indicator,
 body:has(#experience:target) .nav-link-experience .site-nav-indicator,
 body:has(#skills:target) .nav-link-skills .site-nav-indicator,
-body:has(#projects:target) .nav-link-projects .site-nav-indicator,
+body:has(#chapters:target) .nav-link-chapters .site-nav-indicator,
 body:has(#contact:target) .nav-link-contact .site-nav-indicator {
   opacity: 1;
 }

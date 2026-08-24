@@ -13,9 +13,17 @@ export const SITE_CONFIG = {
 
 export const NAVIGATION_LINKS = [
   { label: "Home", href: "#hero", activeClassName: "nav-link-home" },
-  { label: "Experience", href: "#experience", activeClassName: "nav-link-experience" },
+  {
+    label: "Experience",
+    href: "#experience",
+    activeClassName: "nav-link-experience",
+  },
   { label: "Skills", href: "#skills", activeClassName: "nav-link-skills" },
-  { label: "Projects", href: "#projects", activeClassName: "nav-link-projects" },
+  {
+    label: "Chapters",
+    href: "#chapters",
+    activeClassName: "nav-link-chapters",
+  },
   { label: "Contact", href: "#contact", activeClassName: "nav-link-contact" },
 ];
 
@@ -132,36 +140,4 @@ export const EXPERIENCE = [
       "Studying economic informatics with a focus on software, data, business systems, and practical web development foundations.",
     ],
   },
-];
-
-export const PROJECTS = [
-  {
-    category: "Application UI",
-    title: "DevHub",
-    description:
-      "Developer collaboration interface with project boards, chat flows and file-sharing screens.",
-    tech: ["Next.js", "TypeScript", "Tailwind", "Zustand", "Node.js", "MySQL"],
-  },
-  {
-    category: "Campaign UI",
-    title: "Smart Gaming Campaign",
-    description:
-      "Marketing campaign landing page for a gaming brand with animations and responsive UI.",
-    tech: ["React", "Tailwind CSS", "Framer Motion", "Vercel"],
-  },
-  {
-    category: "CMS / Dashboard",
-    title: "ContentFlow CMS",
-    description:
-      "Headless CMS built with Strapi to manage articles, users and media assets.",
-    tech: ["Strapi", "GraphQL", "React", "TypeScript", "REST", "MySQL"],
-  },
-];
-
-export const WORKED_ON = [
-  "Application dashboards and reusable frontend flows",
-  "Landing pages and marketing campaign features",
-  "Internal CMS screens and content management tooling",
-  "GraphQL and REST API integrations with Apollo Client",
-  "Photoshop-led content work for Smart Gaming social channels",
 ];
