@@ -26,27 +26,33 @@ export function SocialLinks({
 
   return (
     <>
-      {links.map((link) => (
-        <Link
-          key={link.label}
-          href={link.href}
-          className={cn(
-            "inline-flex items-center gap-2 transition-colors hover:text-primary",
-            linkClassName,
-          )}
-          aria-label={link.label}
-        >
-          <ImageComponent
-            src={link.icon}
-            alt=""
-            aria-hidden="true"
-            width={16}
-            height={16}
-            className={cn("h-4 w-4", iconClassName)}
-          />
-          <span>{link.label}</span>
-        </Link>
-      ))}
+      {links.map((link) => {
+        const isExternal = link.href.startsWith("http");
+
+        return (
+          <Link
+            key={link.label}
+            href={link.href}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            className={cn(
+              "inline-flex items-center gap-2 transition-colors hover:text-primary",
+              linkClassName,
+            )}
+            aria-label={link.label}
+          >
+            <ImageComponent
+              src={link.icon}
+              alt=""
+              aria-hidden="true"
+              width={16}
+              height={16}
+              className={cn("h-4 w-4", iconClassName)}
+            />
+            <span>{link.label}</span>
+          </Link>
+        );
+      })}
     </>
   );
 }
