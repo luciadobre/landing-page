@@ -175,6 +175,20 @@ export function FlyingPhotoStack() {
   );
 
   useEffect(() => {
+    const prefetchAll = () => {
+      setLoadedIndexes(new Set(frames.map((_, index) => index)));
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(prefetchAll, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+
+    const id = window.setTimeout(prefetchAll, 2000);
+    return () => window.clearTimeout(id);
+  }, []);
+
+  useEffect(() => {
     let animationFrame = 0;
 
     const recycle = (object: FlyingObject) => {
