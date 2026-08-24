@@ -1,10 +1,7 @@
 export const SITE_CONFIG = {
-  name: "LC.DEV",
-  title: "Lucia-Corina Dobre - Frontend Developer",
   description:
     "I'm passionate about any project that looks interesting, lets me develop cool skills or makes a positive impact in society. So far I've loved coding and tech the most.",
   author: "Dobre Lucia-Corina",
-  year: 2024,
   email: "lucia.dobre@proton.me",
   location: "Bucharest, Romania",
   github: "https://github.com",
@@ -42,8 +39,9 @@ export const SOCIAL_LINKS = [
 ];
 
 export const HERO_COPY = {
+  roleLabel: "Frontend Dev",
   tagline: "I have lots of dreams",
-  profileLabel: "Profile / 00",
+  profileLabel: "00 / Profile",
 };
 
 export const CONTACT_COPY = {
@@ -117,14 +115,12 @@ export const EXPERIENCE = [
     endDate: "Dec 2025",
     title: "Frontend Developer",
     company: "IOS Services",
-    kind: "Work",
     bullets: [
-      "Built and deployed application interfaces with React, Next.js, TypeScript, Strapi CMS, and Tailwind CSS.",
-      "Managed client-side state with Zustand.",
-      "Developed marketing campaign features and landing pages.",
-      "Contributed to internal CMS development.",
-      "Integrated GraphQL and REST APIs using Apollo Client and Node.js.",
-      "Wrote unit tests with Jest to ensure code quality.",
+      "The job I loved the most and where I **grew the fastest**, going from no experience to developing a **fullstack application**.",
+      "I loved working **agile**, the tickets I got felt **gamified** and it was fun.",
+      "I was **obsessed with bugs** and loved figuring them out by myself, but I also really enjoyed using **new tech** or getting new features, especially ones where I had to go through documentation and learn a new tool.",
+      "The team was pretty small so I got to learn some **backend**, some **testing**, **ci/cd and deploys**, as well as working with other non technical teams and understanding their needs.",
+      "I really **loved working with the team** too. Working with someone on a problem, going back and forth on ideas, trying different things and eventually discovering the solution together was the best. I also always kept in mind that the code I wrote had to make their life easier too, so it was **easy to read, well documented** and not something they would struggle to understand.",
     ],
   },
   {
@@ -132,19 +128,32 @@ export const EXPERIENCE = [
     endDate: "Feb 2023",
     title: "Social Media Manager",
     company: "Smart Gaming",
-    kind: "Work",
     bullets: [
-      "Managed social media content creation and scheduling using Photoshop and various platforms.",
+      "Did social media for **Vikin.gg**, a small Dota 2 team. The main platform was Twitter but we expanded to other platforms like Discord, Facebook and even YouTube.",
+      "I was the only person in my team and had **almost 0 budget**, but it was overall a success. Teams with similar performance and results to us had around 1k-2k followers and I **reached over 5k**, with many **viral posts**, community events and a lot of interactions with fans, other teams and people in the industry, like event casters. I made sure we had a presence everywhere our fans were, even on places like Reddit, and also involved our players for fun interactions while also being considerate of their training.",
+      "One of my earliest coding projects was for this community, a **Discord bot in Python** called Jeffy that scraped Liquipedia and informed fans of the team's upcoming games.",
+      "I was **VERY diligent** with posts. Sometimes I would spend a few hours **rigging a model** for a single meme. If I had a great idea for a post, it didn't matter how hard it was, I would make it happen no matter what.",
+      "I learned **A LOT**, like **Photoshop and Premiere**, but even **3D model rigging with Source Filmmaker** for the videos.",
     ],
   },
   {
-    startDate: "2023",
-    endDate: "2026",
+    startDate: "2022",
+    endDate: "2024",
+    dateNote: "Bachelors in 2026",
     title: "Economic Informatics",
     company: "Babes-Bolyai University, Cluj-Napoca",
-    kind: "Education",
     bullets: [
-      "Studying economic informatics with a focus on software, data, business systems, and practical web development foundations.",
+      "I liked this angle of adding **business and economics** studies to my programming understanding.",
+      "While I loved the fullstack understanding I got, subjects like **algorithms and Big Data** were my favorite.",
+      "It **strengthened my foundation** for sure, but I also learned a lot of new things.",
+    ],
+  },
+  {
+    startDate: "Before 2020",
+    title: "Various Projects",
+    company: "Freelance",
+    bullets: [
+      "I had some early design jobs using tools like **CorelDRAW, Maya, AutoCAD and Revit**.",
     ],
   },
 ];

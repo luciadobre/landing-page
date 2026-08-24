@@ -38,7 +38,7 @@ export function PageState({ label, title, description, action }: PageStateProps)
   return (
     <main className="viewport-minus-header flex items-center bg-background text-accent">
       <section className="state-shell py-16">
-        <Heading red className="mb-6">{label}</Heading>
+        <Heading className="mb-6">{label}</Heading>
         <Heading variant="displayHero">{title}</Heading>
         <p className="mt-8 max-w-xl text-lg leading-snug tracking-[-0.025em] text-dim">
           {description}

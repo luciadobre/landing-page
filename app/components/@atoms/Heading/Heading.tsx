@@ -1,6 +1,8 @@
 import type { ElementType, HTMLAttributes, ReactNode } from "react";
 import { cn, revealDelay } from "@/app/lib/utils";
 
+const labelVariant = "font-mono text-[11px] uppercase tracking-[0.13em] text-primary";
+
 const displayVariants = {
   displayXl:
     "text-[clamp(2rem,8vw,8.5rem)] font-black uppercase leading-[0.82] tracking-[-0.06em] text-accent",
@@ -29,8 +31,6 @@ const defaultTagByVariant: Record<HeadingVariant, ElementType> = {
 interface HeadingProps extends Omit<HTMLAttributes<HTMLElement>, "className" | "children"> {
   children: ReactNode;
   variant?: HeadingVariant;
-  /** Only applies to the "label" variant: red (primary) vs dim. */
-  red?: boolean;
   tagName?: ElementType;
   className?: string;
   reveal?: boolean;
@@ -40,7 +40,6 @@ interface HeadingProps extends Omit<HTMLAttributes<HTMLElement>, "className" | "
 export function Heading({
   children,
   variant = "label",
-  red = false,
   tagName,
   className,
   reveal = false,
@@ -49,10 +48,7 @@ export function Heading({
 }: HeadingProps) {
   const Tag = tagName ?? defaultTagByVariant[variant];
 
-  const variantClass =
-    variant === "label"
-      ? cn("font-mono text-[11px] uppercase tracking-[0.13em]", red ? "text-primary" : "text-dim")
-      : displayVariants[variant];
+  const variantClass = variant === "label" ? labelVariant : displayVariants[variant];
 
   return (
     <Tag

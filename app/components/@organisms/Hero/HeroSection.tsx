@@ -35,13 +35,11 @@ export function HeroSection() {
       <RevealScope className="site-shell flex h-full min-h-0 flex-col justify-between py-5 sm:py-7">
         <div
           data-reveal
-          className="flex justify-between gap-8 font-mono text-[12px] uppercase tracking-[0.13em] text-dim max-sm:grid sm:text-[13px]"
+          className="flex justify-between gap-8 font-mono text-[12px] uppercase tracking-[0.13em] text-primary max-sm:grid sm:text-[13px]"
           style={revealDelay("80ms")}
         >
-          <span>
-            {SITE_CONFIG.author} / {SITE_CONFIG.location}
-          </span>
-          <span className="text-right">{HERO_COPY.tagline}</span>
+          <span>{HERO_COPY.roleLabel}</span>
+          <span className="text-right max-sm:hidden">{HERO_COPY.tagline}</span>
         </div>
 
         <div className="grid min-h-0 flex-1 items-center gap-2 py-1 sm:gap-8 sm:py-4 lg:grid-cols-[minmax(0,0.78fr)_minmax(620px,0.72fr)]">
@@ -60,9 +58,18 @@ export function HeroSection() {
         </div>
 
         <div className="grid items-end gap-7 border-t border-border pt-5 lg:grid-cols-[160px_minmax(0,650px)_auto]">
-          <Heading tagName="div" red reveal delay="300ms">
-            {HERO_COPY.profileLabel}
-          </Heading>
+          <div className="flex items-center justify-between max-sm:w-full sm:contents">
+            <Heading tagName="div" reveal delay="300ms">
+              {HERO_COPY.profileLabel}
+            </Heading>
+            <span
+              data-reveal
+              className="font-mono text-[11px] uppercase tracking-[0.13em] text-primary sm:hidden"
+              style={revealDelay("300ms")}
+            >
+              {HERO_COPY.tagline}
+            </span>
+          </div>
           <p
             data-reveal
             className="m-0 max-w-2xl text-[clamp(1.05rem,1.55vw,1.45rem)] leading-snug tracking-[-0.025em]"

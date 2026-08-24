@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/app/components/@molecules/Header/Header";
-import { Footer } from "@/app/components/@molecules/Footer/Footer";
 import { SITE_CONFIG } from "@/app/config/site";
 
 export const metadata: Metadata = {
-  title: SITE_CONFIG.title,
+  title: "Lucia | Frontend Dev",
   description: SITE_CONFIG.description,
 };
 
@@ -27,7 +26,6 @@ export default function RootLayout({
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>
-        <Footer />
       </body>
     </html>
   );

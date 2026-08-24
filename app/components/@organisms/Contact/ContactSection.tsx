@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { JourneyLine } from "@/app/components/@molecules/JourneyLine/JourneyLineLoader";
 import { SocialLinks } from "@/app/components/@molecules/SocialLinks/SocialLinks";
@@ -14,21 +15,16 @@ export function ContactSection() {
         className="contact-screen flex items-stretch bg-accent text-background"
       >
         <RevealScope className="site-shell flex flex-col justify-center py-10">
-        <div className="relative grid gap-8">
-          <div
-            data-reveal
-            className="flex justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.13em] text-background/60 max-sm:grid"
-            style={revealDelay("80ms")}
-          >
-            <span>{CONTACT_COPY.sectionLabel}</span>
-            <span>{SITE_CONFIG.location}</span>
-          </div>
+        <div className="relative grid gap-4 lg:gap-8">
+          <Heading tagName="span" reveal delay="80ms">
+            {CONTACT_COPY.sectionLabel}
+          </Heading>
 
           <JourneyLine />
 
           <h2
             data-reveal
-            className="display-wordmark contact-wordmark my-12"
+            className="display-wordmark contact-wordmark mb-2 mt-0 lg:my-12"
             style={revealDelay("180ms")}
           >
             {CONTACT_COPY.headingFirstLine}
@@ -39,7 +35,7 @@ export function ContactSection() {
 
           <p
             data-reveal
-            className="max-w-none whitespace-nowrap border-t border-background/25 pb-2 pt-8 text-[clamp(1rem,1.45vw,1.65rem)] leading-snug tracking-[-0.035em] text-background/80 max-lg:whitespace-normal"
+            className="max-w-none whitespace-nowrap border-t border-background/25 pb-2 pt-8 text-[clamp(1rem,1.45vw,1.65rem)] leading-snug tracking-[-0.035em] text-primary max-lg:whitespace-normal"
             style={revealDelay("300ms")}
           >
             {CONTACT_COPY.message}
@@ -64,6 +60,7 @@ export function ContactSection() {
               <SocialLinks
                 links={SOCIAL_LINKS.filter((link) => link.label !== "Email")}
                 iconClassName="invert"
+                lazy
               />
             </div>
           </div>

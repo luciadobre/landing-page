@@ -1,12 +1,23 @@
 import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { revealDelay as revealDelayStyle } from "@/app/lib/utils";
 
+const renderBulletText = (text: string) =>
+  text.split(/(\*\*[^*]+\*\*)/g).map((part, index) =>
+    part.startsWith("**") && part.endsWith("**") ? (
+      <strong key={index} className="font-semibold text-accent">
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+
 interface TimelineEntryProps {
   startDate: string;
-  endDate: string;
+  endDate?: string;
+  dateNote?: string;
   title: string;
   company: string;
-  kind?: string;
   bullets: string[];
   revealDelay?: string;
 }
@@ -14,9 +25,9 @@ interface TimelineEntryProps {
 export function TimelineEntry({
   startDate,
   endDate,
+  dateNote,
   title,
   company,
-  kind = "History",
   bullets,
   revealDelay = "0ms",
 }: TimelineEntryProps) {
@@ -24,11 +35,23 @@ export function TimelineEntry({
 
   return (
     <article
-      className="grid gap-4 border-b border-border py-7 lg:grid-cols-[190px_minmax(0,1fr)_130px] lg:gap-7"
+      className="grid gap-4 border-b border-border py-7 lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-7"
     >
-      <Heading tagName="div" red reveal delay={delay} className="leading-relaxed">
-        {startDate} - {endDate}
-      </Heading>
+      <div>
+        <Heading tagName="div" reveal delay={delay} className="leading-relaxed">
+          {endDate ? `${startDate} - ${endDate}` : startDate}
+        </Heading>
+        {dateNote && (
+          <Heading
+            tagName="div"
+            reveal
+            delay={`calc(${delay} + 40ms)`}
+            className="mt-1 leading-relaxed"
+          >
+            {dateNote}
+          </Heading>
+        )}
+      </div>
 
       <div>
         <Heading
@@ -46,18 +69,14 @@ export function TimelineEntry({
             <li
               key={bullet}
               data-reveal
-              className="relative pl-5 text-sm leading-relaxed text-accent/80 before:absolute before:left-0 before:text-primary before:content-['-']"
+              className="relative pl-5 text-base leading-relaxed text-accent/80 before:absolute before:left-0 before:text-primary before:content-['-']"
               style={revealDelayStyle(`calc(${delay} + ${220 + index * 55}ms)`)}
             >
-              {bullet}
+              {renderBulletText(bullet)}
             </li>
           ))}
         </ul>
       </div>
-
-      <Heading tagName="div" reveal delay={`calc(${delay} + 190ms)`} className="hidden text-right lg:block">
-        {kind}
-      </Heading>
     </article>
   );
 }

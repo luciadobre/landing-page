@@ -9,12 +9,9 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ label, action }: SectionHeaderProps) {
   return (
-    <div className="border-b border-border px-4 py-10 sm:px-7 sm:py-14">
+    <div className="border-b border-border px-4 pb-10 pt-4 sm:px-7 sm:pb-14 lg:pt-7">
       <RevealScope>
-        <Heading red reveal delay="60ms" className="mb-5">
-          {label}
-        </Heading>
-        <Heading variant="displayXl" reveal delay="140ms" className="max-w-5xl">
+        <Heading variant="displayXl" reveal delay="60ms" className="max-w-5xl">
           {label.replace("&", "/")}
         </Heading>
         {action && (
