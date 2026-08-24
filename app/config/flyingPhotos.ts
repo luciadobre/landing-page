@@ -19,7 +19,7 @@ export const FLYING_PHOTOS: FlyingPhoto[] = [
   },
   {
     photoSource: "/assets/photos/code-portrait.jpg",
-    caption: "On my way to become an amazing programmer.",
+    caption: "Need this to be my daily life.",
     orientation: "portrait",
   },
   {

@@ -1,13 +1,11 @@
 import Link from "next/link";
+import { Button } from "@/app/components/@atoms/Button/Button";
 import { Container } from "@/app/components/@atoms/Container/Container";
 import { NAVIGATION_LINKS, SITE_CONFIG } from "@/app/config/site";
 import { cn } from "@/app/lib/utils";
 
 const navLinkClass =
   "site-nav-link relative py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-dim transition-colors hover:text-accent";
-
-const resumeClass =
-  "inline-flex items-center justify-center border border-border px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors hover:border-accent hover:bg-accent hover:text-background";
 
 export function Header() {
   return (
@@ -40,21 +38,10 @@ export function Header() {
           </nav>
 
           <div className="hidden justify-self-end lg:block">
-            <Link href="/resume.pdf" download className={resumeClass}>
+            <Button href="/resume.pdf" download>
               Resume
-            </Link>
+            </Button>
           </div>
-
-          <button
-            type="button"
-            className="ml-auto flex w-10 flex-col items-end gap-1.5 lg:hidden"
-            aria-label="Open navigation"
-            aria-expanded="false"
-          >
-            <span className="block h-px w-3/4 bg-accent" />
-            <span className="block h-px w-full bg-accent" />
-            <span className="block h-px w-1/2 bg-accent" />
-          </button>
         </div>
       </Container>
     </header>

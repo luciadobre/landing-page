@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Button } from "@/app/components/@atoms/Button/Button";
 import { Heading } from "@/app/components/@atoms/Heading/Heading";
 
 interface LoadingMarkProps {
@@ -7,7 +7,7 @@ interface LoadingMarkProps {
 }
 
 interface PageStateProps {
-  eyebrow: string;
+  label: string;
   title: string;
   description: string;
   action?: {
@@ -34,28 +34,24 @@ export function LoadingMark({ label = "Loading", compact = false }: LoadingMarkP
   );
 }
 
-export function PageState({ eyebrow, title, description, action }: PageStateProps) {
-  const actionClass =
-    "mt-8 inline-flex border border-border px-5 py-3 font-mono text-[10px] uppercase tracking-[0.12em] text-accent transition-colors hover:border-accent hover:bg-accent hover:text-background";
-
+export function PageState({ label, title, description, action }: PageStateProps) {
   return (
     <main className="viewport-minus-header flex items-center bg-background text-accent">
       <section className="state-shell py-16">
-        <Heading red className="mb-6">{eyebrow}</Heading>
+        <Heading red className="mb-6">{label}</Heading>
         <Heading variant="displayHero">{title}</Heading>
         <p className="mt-8 max-w-xl text-lg leading-snug tracking-[-0.025em] text-dim">
           {description}
         </p>
-        {action?.href ? (
-          <Link href={action.href} className={actionClass}>
+        {action && (
+          <Button
+            href={action.href}
+            onClick={action.onClick}
+            className="mt-8 text-accent"
+          >
             {action.label}
-          </Link>
-        ) : null}
-        {action?.onClick ? (
-          <button type="button" onClick={action.onClick} className={actionClass}>
-            {action.label}
-          </button>
-        ) : null}
+          </Button>
+        )}
       </section>
     </main>
   );
