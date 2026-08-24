@@ -38,7 +38,7 @@ export function Header() {
           </nav>
 
           <div className="hidden justify-self-end lg:block">
-            <Button href="/resume.pdf" download>
+            <Button href="/LuciaDobre_resume.pdf" download>
               Resume
             </Button>
           </div>
