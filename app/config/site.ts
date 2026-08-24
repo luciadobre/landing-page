@@ -59,13 +59,31 @@ export const SKILLS = [
   { name: "React", icon: "/icons/skills/react.svg" },
   { name: "Next.js", icon: "/icons/skills/nextjs.svg" },
   { name: "Tailwind CSS", icon: "/icons/skills/tailwindcss.svg" },
+  { name: "Zustand", icon: "/icons/skills/zustand.svg" },
+  { name: "jQuery", icon: "/icons/skills/jquery.svg" },
   { name: "Node.js", icon: "/icons/skills/nodejs.svg" },
+  { name: "NestJS", icon: "/icons/skills/nestjs.svg" },
+  { name: "Express", icon: "/icons/skills/express.svg" },
   { name: "Strapi", icon: "/icons/skills/strapi.svg" },
   { name: "GraphQL", icon: "/icons/skills/graphql.svg" },
+  { name: "Apollo", icon: "/icons/skills/apollo.svg" },
+  { name: "tRPC", icon: "/icons/skills/trpc.svg" },
+  { name: "Prisma", icon: "/icons/skills/prisma.svg" },
   { name: "MySQL", icon: "/icons/skills/mysql.svg" },
+  { name: "MSSQL", icon: "/icons/skills/mssql.svg" },
   { name: "Git", icon: "/icons/skills/git.svg" },
   { name: "Docker", icon: "/icons/skills/docker.svg" },
   { name: "Jest", icon: "/icons/skills/jest.svg" },
+  { name: "GitHub Actions", icon: "/icons/skills/github-actions.svg" },
+  { name: "Jenkins", icon: "/icons/skills/jenkins.svg" },
+  { name: "Python", icon: "/icons/skills/python.svg" },
+  { name: "Photoshop", icon: "/icons/skills/photoshop.svg" },
+  { name: "Premiere", icon: "/icons/skills/premiere.svg" },
+  { name: "Source Filmmaker", icon: "/icons/skills/source-filmmaker.svg" },
+  { name: "CorelDRAW", icon: "/icons/skills/coreldraw.svg" },
+  { name: "AutoCAD", icon: "/icons/skills/autocad.svg" },
+  { name: "Revit", icon: "/icons/skills/revit.svg" },
+  { name: "Tableau", icon: "/icons/skills/tableau.svg" },
 ];
 
 export const SKILLS_STRIP = [
@@ -91,17 +109,6 @@ export const SKILLS_STRIP = [
   "Tableau",
   "R",
   "Economics",
-];
-
-export const TECH_STACK = [
-  { label: "Languages", value: "TypeScript, JavaScript" },
-  { label: "Frontend", value: "React, Next.js, Tailwind, Zustand" },
-  { label: "Backend", value: "Node.js, NestJS, Strapi" },
-  { label: "Database", value: "MySQL, Prisma" },
-  { label: "APIs & Data", value: "GraphQL, REST, tRPC" },
-  { label: "CI/CD", value: "GitHub Actions, Jenkins, Vercel" },
-  { label: "Tooling", value: "Git, Jest, React Testing Library, Docker" },
-  { label: "Design", value: "Adobe Photoshop, Adobe Premiere" },
 ];
 
 export const EXPERIENCE = [
