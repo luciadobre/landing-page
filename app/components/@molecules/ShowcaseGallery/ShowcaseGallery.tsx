@@ -25,7 +25,11 @@ export function ShowcaseGallery({ photos }: ShowcaseGalleryProps) {
 
   useEffect(() => {
     if (!emblaApi) return;
+
     emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
   }, [emblaApi, onSelect]);
 
   useEffect(() => {
@@ -36,7 +40,7 @@ export function ShowcaseGallery({ photos }: ShowcaseGalleryProps) {
     }, AUTOPLAY_INTERVAL_MS);
 
     return () => clearInterval(interval);
-  }, [emblaApi, selectedIndex, photos.length]);
+  }, [emblaApi, photos.length]);
 
   if (photos.length === 0) {
     return <p className="text-sm leading-relaxed text-dim">Photos coming soon.</p>;

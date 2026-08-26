@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useInViewOnce } from "@/app/hooks/useInViewOnce";
 import styles from "./JourneyLine.module.css";
 
 type Point = { x: number; y: number };
@@ -116,36 +116,11 @@ const milestones: Milestone[] = [
 ];
 
 export function JourneyLine() {
-  const lineRef = useRef<SVGSVGElement | null>(null);
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    if (isActive) return;
-
-    const trigger = lineRef.current;
-    if (!trigger) return;
-
-    let timeoutId = 0;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        observer.disconnect();
-        timeoutId = window.setTimeout(() => setIsActive(true), 700);
-      },
-      {
-        rootMargin: "0px 0px -35% 0px",
-        threshold: 0.05,
-      },
-    );
-
-    observer.observe(trigger);
-
-    return () => {
-      window.clearTimeout(timeoutId);
-      observer.disconnect();
-    };
-  }, [isActive]);
+  const [lineRef, isActive] = useInViewOnce<SVGSVGElement>({
+    delay: 700,
+    rootMargin: "0px 0px -35% 0px",
+    threshold: 0.05,
+  });
 
   return (
     <svg

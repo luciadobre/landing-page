@@ -1,30 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image, { type ImageProps } from "next/image";
+import { useInViewOnce } from "@/app/hooks/useInViewOnce";
 
 export function LazyImage({ alt, ...props }: ImageProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (isVisible) return;
-
-    const element = containerRef.current;
-    if (!element) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setIsVisible(true);
-        observer.disconnect();
-      },
-      { rootMargin: "200px 0px" },
-    );
-
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, [isVisible]);
+  const [containerRef, isVisible] = useInViewOnce<HTMLDivElement>({
+    rootMargin: "200px 0px",
+  });
 
   return (
     <div

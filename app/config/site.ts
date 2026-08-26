@@ -4,7 +4,7 @@ export const SITE_CONFIG = {
   author: "Dobre Lucia-Corina",
   email: "lucia.dobre@proton.me",
   location: "Bucharest, Romania",
-  github: "https://github.com",
+  github: "https://github.com/luciadobre",
   linkedin: "https://linkedin.com/in/dobre-lucia-corina",
 };
 
