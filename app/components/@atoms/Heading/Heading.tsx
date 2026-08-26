@@ -44,17 +44,19 @@ export function Heading({
   className,
   reveal = false,
   delay,
+  style,
   ...rest
 }: HeadingProps) {
   const Tag = tagName ?? defaultTagByVariant[variant];
 
   const variantClass = variant === "label" ? labelVariant : displayVariants[variant];
+  const revealStyle = reveal && delay ? revealDelay(delay) : undefined;
 
   return (
     <Tag
       {...rest}
       {...(reveal ? { "data-reveal": true } : {})}
-      style={reveal && delay ? revealDelay(delay) : undefined}
+      style={{ ...style, ...revealStyle }}
       className={cn(variantClass, className)}
     >
       {children}

@@ -19,37 +19,43 @@ export function ShowcaseGallery({ photos }: ShowcaseGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
+    if (emblaApi) {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    }
   }, [emblaApi]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (emblaApi) {
+      emblaApi.on("select", onSelect);
+    }
 
-    emblaApi.on("select", onSelect);
     return () => {
-      emblaApi.off("select", onSelect);
+      emblaApi?.off("select", onSelect);
     };
   }, [emblaApi, onSelect]);
 
   useEffect(() => {
-    if (!emblaApi || photos.length < 2) return;
+    let interval: ReturnType<typeof setInterval> | undefined;
 
-    const interval = setInterval(() => {
-      emblaApi.scrollNext();
-    }, AUTOPLAY_INTERVAL_MS);
+    if (emblaApi && photos.length > 1) {
+      interval = setInterval(() => {
+        emblaApi.scrollNext();
+      }, AUTOPLAY_INTERVAL_MS);
+    }
 
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
   }, [emblaApi, photos.length]);
-
-  if (photos.length === 0) {
-    return <p className="text-sm leading-relaxed text-dim">Photos coming soon.</p>;
-  }
 
   const scrollPrev = () => emblaApi?.scrollPrev();
   const scrollNext = () => emblaApi?.scrollNext();
+  const hasPhotos = photos.length > 0;
+  const hasControls = photos.length > 1;
 
-  return (
+  const content = hasPhotos ? (
     <div className="relative overflow-hidden border border-border bg-card">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
@@ -59,7 +65,7 @@ export function ShowcaseGallery({ photos }: ShowcaseGalleryProps) {
         </div>
       </div>
 
-      {photos.length > 1 && (
+      {hasControls && (
         <>
           <button
             type="button"
@@ -109,5 +115,9 @@ export function ShowcaseGallery({ photos }: ShowcaseGalleryProps) {
         </>
       )}
     </div>
+  ) : (
+    <p className="text-sm leading-relaxed text-dim">Photos coming soon.</p>
   );
+
+  return content;
 }

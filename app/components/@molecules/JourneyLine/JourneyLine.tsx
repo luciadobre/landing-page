@@ -61,15 +61,13 @@ const lerpPoint = (a: Point, b: Point, t: number): Point => ({
 });
 
 const sampledRoute = segments.flatMap((segment, segmentIndex) =>
-  Array.from({ length: 28 }, (_, step) => {
-    if (segmentIndex > 0 && step === 0) return null;
-    return cubicPoint(segment, step / 27);
-  }).filter(Boolean),
-) as Point[];
+  Array.from({ length: 28 }, (_, step) => cubicPoint(segment, step / 27)).slice(
+    segmentIndex > 0 ? 1 : 0,
+  ),
+);
 
 const routeLength = sampledRoute.reduce((total, point, index) => {
-  if (index === 0) return total;
-  return total + distance(sampledRoute[index - 1], point);
+  return index === 0 ? total : total + distance(sampledRoute[index - 1], point);
 }, 0);
 
 const pointAtDistance = (targetDistance: number): Point => {

@@ -16,27 +16,27 @@ export function useInViewOnce<T extends Element>({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (isVisible) return;
-
     const element = ref.current;
-    if (!element) return;
-
     let timeoutId = 0;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
+    let observer: IntersectionObserver | undefined;
 
-        observer.disconnect();
-        timeoutId = window.setTimeout(() => setIsVisible(true), delay);
-      },
-      { root, rootMargin, threshold },
-    );
+    if (!isVisible && element) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            observer?.disconnect();
+            timeoutId = window.setTimeout(() => setIsVisible(true), delay);
+          }
+        },
+        { root, rootMargin, threshold },
+      );
 
-    observer.observe(element);
+      observer.observe(element);
+    }
 
     return () => {
       window.clearTimeout(timeoutId);
-      observer.disconnect();
+      observer?.disconnect();
     };
   }, [delay, isVisible, root, rootMargin, threshold]);
 

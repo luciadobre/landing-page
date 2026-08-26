@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Heading } from "@/app/components/@atoms/Heading/Heading";
 import { RevealScope } from "@/app/components/@atoms/RevealScope/RevealScope";
 import { JourneyLine } from "@/app/components/@molecules/JourneyLine/JourneyLineLoader";
@@ -15,56 +14,56 @@ export function ContactSection() {
         className="contact-screen flex items-stretch bg-accent text-background"
       >
         <RevealScope className="site-shell flex flex-col justify-center py-10">
-        <div className="relative grid gap-4 lg:gap-8">
-          <Heading tagName="span" reveal delay="80ms">
-            {CONTACT_COPY.sectionLabel}
-          </Heading>
+          <div className="relative grid gap-4 lg:gap-8">
+            <Heading tagName="span" reveal delay="80ms">
+              {CONTACT_COPY.sectionLabel}
+            </Heading>
 
-          <JourneyLine />
+            <JourneyLine />
 
-          <h2
-            data-reveal
-            className="display-wordmark contact-wordmark mb-2 mt-0 lg:my-12"
-            style={revealDelay("180ms")}
-          >
-            {CONTACT_COPY.headingFirstLine}
-            <span className="outline-light block">
-              {CONTACT_COPY.headingSecondLine}
-            </span>
-          </h2>
-
-          <p
-            data-reveal
-            className="max-w-none whitespace-nowrap border-t border-background/25 pb-2 pt-8 text-[clamp(1rem,1.45vw,1.65rem)] leading-snug tracking-[-0.035em] text-primary max-lg:whitespace-normal"
-            style={revealDelay("300ms")}
-          >
-            {CONTACT_COPY.message}
-          </p>
-
-          <div>
-            <Link
-              href={`mailto:${SITE_CONFIG.email}`}
+            <h2
               data-reveal
-              className="block border-y border-background/25 py-5 text-[clamp(0.95rem,4.6vw,5rem)] leading-none tracking-[-0.055em] transition-colors hover:text-primary"
-              style={revealDelay("420ms")}
+              className="display-wordmark contact-wordmark mb-2 mt-0 lg:my-12"
+              style={revealDelay("180ms")}
             >
-              {SITE_CONFIG.email}
-            </Link>
+              {CONTACT_COPY.headingFirstLine}
+              <span className="outline-light block">
+                {CONTACT_COPY.headingSecondLine}
+              </span>
+            </h2>
 
-            <div
+            <p
               data-reveal
-              className="mt-7 flex flex-wrap items-center gap-6 font-mono text-[10px] uppercase tracking-[0.13em] text-background/75"
-              style={revealDelay("520ms")}
+              className="max-w-none whitespace-nowrap border-t border-background/25 pb-2 pt-8 text-[clamp(1rem,1.45vw,1.65rem)] leading-snug tracking-[-0.035em] text-primary max-lg:whitespace-normal"
+              style={revealDelay("300ms")}
             >
-              <span>{SITE_CONFIG.location}</span>
-              <SocialLinks
-                links={SOCIAL_LINKS.filter((link) => link.label !== "Email")}
-                iconClassName="invert"
-                lazy
-              />
+              {CONTACT_COPY.message}
+            </p>
+
+            <div>
+              <a
+                href={`mailto:${SITE_CONFIG.email}`}
+                data-reveal
+                className="block border-y border-background/25 py-5 text-[clamp(0.95rem,4.6vw,5rem)] leading-none tracking-[-0.055em] transition-colors hover:text-primary"
+                style={revealDelay("420ms")}
+              >
+                {SITE_CONFIG.email}
+              </a>
+
+              <div
+                data-reveal
+                className="mt-7 flex flex-wrap items-center gap-6 font-mono text-[10px] uppercase tracking-[0.13em] text-background/75"
+                style={revealDelay("520ms")}
+              >
+                <span>{SITE_CONFIG.location}</span>
+                <SocialLinks
+                  links={SOCIAL_LINKS.filter((link) => link.label !== "Email")}
+                  iconClassName="invert"
+                  lazy
+                />
+              </div>
             </div>
           </div>
-        </div>
         </RevealScope>
       </section>
     </>

@@ -7,7 +7,7 @@ interface SectionRailProps {
 export function SectionRail({ children }: SectionRailProps) {
   return (
     <Heading
-      tagName="aside"
+      tagName="div"
       aria-hidden="true"
       className="border-b border-muted px-4 py-4 lg:border-b-0 lg:border-r lg:px-5 lg:py-7"
     >

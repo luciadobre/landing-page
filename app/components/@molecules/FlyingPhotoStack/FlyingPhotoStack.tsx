@@ -155,6 +155,9 @@ const createObject = (index: number): FlyingObject => {
   };
 };
 
+const addIndex = (current: Set<number>, index: number) =>
+  current.has(index) ? current : new Set(current).add(index);
+
 export function FlyingPhotoStack() {
   const [showSilhouette, setShowSilhouette] = useState(true);
   const [caughtIndex, setCaughtIndex] = useState<number | null>(null);
@@ -179,13 +182,21 @@ export function FlyingPhotoStack() {
       setLoadedIndexes(new Set(frames.map((_, index) => index)));
     };
 
+    let cleanup: () => void = () => {};
+
     if (typeof window.requestIdleCallback === "function") {
       const id = window.requestIdleCallback(prefetchAll, { timeout: 4000 });
-      return () => window.cancelIdleCallback(id);
+      cleanup = () => {
+        window.cancelIdleCallback(id);
+      };
+    } else {
+      const id = window.setTimeout(prefetchAll, 2000);
+      cleanup = () => {
+        window.clearTimeout(id);
+      };
     }
 
-    const id = window.setTimeout(prefetchAll, 2000);
-    return () => window.clearTimeout(id);
+    return cleanup;
   }, []);
 
   useEffect(() => {
@@ -226,8 +237,9 @@ export function FlyingPhotoStack() {
         maxSpread: width * (isCompact ? 0.54 : 0.58),
       };
 
-      objectsRef.current.forEach((object) => {
-        if (!object.el) return;
+      for (const object of objectsRef.current) {
+        if (!object.el) continue;
+
         const settings = depthSettings[object.depth];
 
         if (object.isDragging) {
@@ -313,7 +325,7 @@ export function FlyingPhotoStack() {
           rotateZ(${object.rz}deg)
           scale(${object.scale})
         `;
-      });
+      }
 
       animationFrame = requestAnimationFrame(tick);
     };
@@ -325,41 +337,38 @@ export function FlyingPhotoStack() {
 
   const positionOverlay = (x: number, y: number) => {
     const overlay = overlayRef.current;
-    if (!overlay) return;
 
-    overlay.style.setProperty("--preview-x", `${x}px`);
-    overlay.style.setProperty("--preview-y", `${y}px`);
-    overlay.style.setProperty("--preview-rotate", "0deg");
+    if (overlay) {
+      overlay.style.setProperty("--preview-x", `${x}px`);
+      overlay.style.setProperty("--preview-y", `${y}px`);
+      overlay.style.setProperty("--preview-rotate", "0deg");
+    }
   };
 
   useEffect(() => {
-    if (caughtIndex === null) return;
+    if (caughtIndex !== null) {
+      const frameEl = objectsRef.current[caughtIndex]?.el;
 
-    const frameEl = objectsRef.current[caughtIndex]?.el;
-    if (!frameEl) return;
-
-    const rect = frameEl.getBoundingClientRect();
-    positionOverlay(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      if (frameEl) {
+        const rect = frameEl.getBoundingClientRect();
+        positionOverlay(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      }
+    }
   }, [caughtIndex]);
 
   const updateMouse = (event: { clientX: number; clientY: number }) => {
     positionOverlay(event.clientX, event.clientY);
 
     const rect = stageRef.current?.getBoundingClientRect();
-    if (!rect) return;
 
-    mouseRef.current.x = event.clientX - rect.left - rect.width / 2;
-    mouseRef.current.y = event.clientY - rect.top - rect.height / 2;
+    if (rect) {
+      mouseRef.current.x = event.clientX - rect.left - rect.width / 2;
+      mouseRef.current.y = event.clientY - rect.top - rect.height / 2;
+    }
   };
 
   const markLoaded = (index: number) => {
-    setLoadedIndexes((current) => {
-      if (current.has(index)) return current;
-
-      const next = new Set(current);
-      next.add(index);
-      return next;
-    });
+    setLoadedIndexes((current) => addIndex(current, index));
   };
 
   const startDrag = (index: number, event: PointerEvent<HTMLButtonElement>) => {
@@ -448,13 +457,7 @@ export function FlyingPhotoStack() {
                   sizes="(max-width: 1023px) 300px, 280px"
                   className={frame.cropClass}
                   onError={() => {
-                    setFallbackIndexes((current) => {
-                      if (current.has(index)) return current;
-
-                      const next = new Set(current);
-                      next.add(index);
-                      return next;
-                    });
+                    setFallbackIndexes((current) => addIndex(current, index));
                   }}
                 />
               )}
@@ -484,13 +487,7 @@ export function FlyingPhotoStack() {
               fill
               sizes="(max-width: 1023px) 360px"
               onError={() => {
-                setFallbackIndexes((current) => {
-                  if (current.has(caughtIndex)) return current;
-
-                  const next = new Set(current);
-                  next.add(caughtIndex);
-                  return next;
-                });
+                setFallbackIndexes((current) => addIndex(current, caughtIndex));
               }}
             />
           </span>

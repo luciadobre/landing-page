@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ElementType } from "react";
 import { LazyImage } from "@/app/components/@atoms/LazyImage/LazyImage";
-import { cn } from "@/app/lib/utils";
+import { cn, shouldUseNativeAnchor } from "@/app/lib/utils";
 
 interface SocialLinkItem {
   label: string;
@@ -27,20 +28,22 @@ export function SocialLinks({
   return (
     <>
       {links.map((link) => {
-        const isExternal = link.href.startsWith("http");
-
-        return (
-          <Link
-            key={link.label}
-            href={link.href}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noopener noreferrer" : undefined}
-            className={cn(
-              "inline-flex items-center gap-2 transition-colors hover:text-primary",
-              linkClassName,
-            )}
-            aria-label={link.label}
-          >
+        const useNativeAnchor = shouldUseNativeAnchor(link.href);
+        const isExternal = /^(https?:)?\/\//.test(link.href);
+        const Component: ElementType = useNativeAnchor ? "a" : Link;
+        const componentProps = useNativeAnchor
+          ? {
+              href: link.href,
+              target: isExternal ? "_blank" : undefined,
+              rel: isExternal ? "noopener noreferrer" : undefined,
+            }
+          : { href: link.href };
+        const className = cn(
+          "inline-flex items-center gap-2 transition-colors hover:text-primary",
+          linkClassName,
+        );
+        const content = (
+          <>
             <ImageComponent
               src={link.icon}
               alt=""
@@ -50,7 +53,18 @@ export function SocialLinks({
               className={cn("h-4 w-4", iconClassName)}
             />
             <span>{link.label}</span>
-          </Link>
+          </>
+        );
+
+        return (
+          <Component
+            key={link.label}
+            {...componentProps}
+            className={className}
+            aria-label={link.label}
+          >
+            {content}
+          </Component>
         );
       })}
     </>

@@ -36,7 +36,7 @@ export function LoadingMark({ label = "Loading", compact = false }: LoadingMarkP
 
 export function PageState({ label, title, description, action }: PageStateProps) {
   return (
-    <main className="viewport-minus-header flex items-center bg-background text-accent">
+    <div className="viewport-minus-header flex items-center bg-background text-accent">
       <section className="state-shell py-16">
         <Heading className="mb-6">{label}</Heading>
         <Heading variant="displayHero">{title}</Heading>
@@ -53,6 +53,6 @@ export function PageState({ label, title, description, action }: PageStateProps)
           </Button>
         )}
       </section>
-    </main>
+    </div>
   );
 }
