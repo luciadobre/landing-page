@@ -75,6 +75,12 @@ const buildFrames = (): FlyingFrame[] => {
 
 const frames = buildFrames();
 
+const previewSizes: Record<PhotoOrientation, string> = {
+  landscape: "(max-width: 1023px) 92vw, 760px",
+  portrait: "(max-width: 1023px) 300px, 420px",
+  square: "(max-width: 1023px) 310px, 430px",
+};
+
 const depthSettings: Record<
   Depth,
   { opacity: number; scale: number; spread: number; z: number }
@@ -164,7 +170,7 @@ export function FlyingPhotoStack() {
   const [fallbackIndexes, setFallbackIndexes] = useState<Set<number>>(
     () => new Set(),
   );
-  const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(
+  const [prefetchedIndexes, setPrefetchedIndexes] = useState<Set<number>>(
     () => new Set(),
   );
   const stageRef = useRef<HTMLDivElement | null>(null);
@@ -178,25 +184,47 @@ export function FlyingPhotoStack() {
   );
 
   useEffect(() => {
-    const prefetchAll = () => {
-      setLoadedIndexes(new Set(frames.map((_, index) => index)));
+    let idleId: number | undefined;
+    let loadTimerId: number | undefined;
+    const prefetchTimerIds: number[] = [];
+
+    const prefetchFrames = () => {
+      frames.forEach((_, index) => {
+        const timerId = window.setTimeout(() => {
+          setPrefetchedIndexes((current) => addIndex(current, index));
+        }, index * 220);
+
+        prefetchTimerIds.push(timerId);
+      });
     };
 
-    let cleanup: () => void = () => {};
+    const schedulePrefetch = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(prefetchFrames, { timeout: 4500 });
+      } else {
+        loadTimerId = window.setTimeout(prefetchFrames, 2600);
+      }
+    };
 
-    if (typeof window.requestIdleCallback === "function") {
-      const id = window.requestIdleCallback(prefetchAll, { timeout: 4000 });
-      cleanup = () => {
-        window.cancelIdleCallback(id);
-      };
+    if (document.readyState === "complete") {
+      schedulePrefetch();
     } else {
-      const id = window.setTimeout(prefetchAll, 2000);
-      cleanup = () => {
-        window.clearTimeout(id);
-      };
+      window.addEventListener("load", schedulePrefetch, { once: true });
     }
 
-    return cleanup;
+    return () => {
+      window.removeEventListener("load", schedulePrefetch);
+
+      if (idleId !== undefined) {
+        window.cancelIdleCallback(idleId);
+      }
+
+      if (loadTimerId !== undefined) {
+        window.clearTimeout(loadTimerId);
+      }
+
+      prefetchTimerIds.forEach((timerId) => window.clearTimeout(timerId));
+    };
   }, []);
 
   useEffect(() => {
@@ -367,10 +395,6 @@ export function FlyingPhotoStack() {
     }
   };
 
-  const markLoaded = (index: number) => {
-    setLoadedIndexes((current) => addIndex(current, index));
-  };
-
   const startDrag = (index: number, event: PointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
     updateMouse(event);
@@ -379,7 +403,6 @@ export function FlyingPhotoStack() {
     object.isDragging = true;
     object.isVanishing = false;
     setCaughtIndex(index);
-    markLoaded(index);
     object.el?.setPointerCapture(event.pointerId);
   };
 
@@ -401,7 +424,6 @@ export function FlyingPhotoStack() {
     object.vx = 0;
     object.vy = 0;
     setCaughtIndex(index);
-    markLoaded(index);
   };
 
   const blurFrame = (index: number) => {
@@ -425,9 +447,11 @@ export function FlyingPhotoStack() {
             alt=""
             width={440}
             height={620}
+            sizes="(max-width: 1023px) 150px, 440px"
             className={styles.silhouette}
             onError={() => setShowSilhouette(false)}
             priority
+            fetchPriority="high"
           />
         )}
 
@@ -448,23 +472,34 @@ export function FlyingPhotoStack() {
             onFocus={() => focusFrame(index)}
             onBlur={() => blurFrame(index)}
           >
-            <span className={styles.imageWrap}>
-              {loadedIndexes.has(index) && (
+            <span className={styles.imageWrap} />
+            <span className={styles.caption}>{frame.caption}</span>
+          </button>
+        ))}
+
+        <div className={styles.prefetchCache} aria-hidden="true">
+          {frames.map((frame, index) => (
+            prefetchedIndexes.has(index) && (
+              <span
+                key={`${frame.caption}-${index}-prefetch`}
+                className={styles.prefetchImage}
+                data-orientation={frame.orientation}
+              >
                 <Image
                   src={fallbackIndexes.has(index) ? frame.fallbackSrc : frame.src}
                   alt=""
                   fill
-                  sizes="(max-width: 1023px) 300px, 280px"
+                  sizes={previewSizes[frame.orientation]}
+                  loading="eager"
                   className={frame.cropClass}
                   onError={() => {
                     setFallbackIndexes((current) => addIndex(current, index));
                   }}
                 />
-              )}
-            </span>
-            <span className={styles.caption}>{frame.caption}</span>
-          </button>
-        ))}
+              </span>
+            )
+          ))}
+        </div>
 
         <p className={styles.hint}>catch and hold</p>
       </div>
@@ -485,7 +520,7 @@ export function FlyingPhotoStack() {
               }
               alt=""
               fill
-              sizes="(max-width: 1023px) 360px"
+              sizes={previewSizes[frames[caughtIndex].orientation]}
               onError={() => {
                 setFallbackIndexes((current) => addIndex(current, caughtIndex));
               }}

@@ -60,11 +60,13 @@ const lerpPoint = (a: Point, b: Point, t: number): Point => ({
   y: a.y + (b.y - a.y) * t,
 });
 
-const sampledRoute = segments.flatMap((segment, segmentIndex) =>
-  Array.from({ length: 28 }, (_, step) => cubicPoint(segment, step / 27)).slice(
-    segmentIndex > 0 ? 1 : 0,
-  ),
-);
+const sampledRoute = segments.reduce<Point[]>((points, segment, segmentIndex) => {
+  for (let step = segmentIndex > 0 ? 1 : 0; step < 28; step += 1) {
+    points.push(cubicPoint(segment, step / 27));
+  }
+
+  return points;
+}, []);
 
 const routeLength = sampledRoute.reduce((total, point, index) => {
   return index === 0 ? total : total + distance(sampledRoute[index - 1], point);
